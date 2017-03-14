@@ -8,13 +8,22 @@ var bodyParser = require('body-parser');
 var routes = require('./routes/index');
 // var users = require('./routes/users');
 var api = require('./routes/api')
+var scrape = require('./routes/scrape')
 
 var app = express();
 var mongoose = require('mongoose')
+require('dotenv').config() //var dotenv = require('dotenv')
 
-var dbUrl = 'mongodb://localhost/2socialBookmark'             //mongoose.server(localhost:\\2socialBookmark) 
 
-mongoose.connect(dbUrl, function(err, res){             //connect(dbUrl, function(err, ){
+
+
+// view engine setup
+app.set('views', path.join(__dirname, 'views'));
+app.set('view engine', 'hjs');
+
+// var dbUrl = 'mongodb://localhost/2socialBookmark'             //mongoose.server(localhost:\\2socialBookmark) 
+
+mongoose.connect(process.env.DB_URL, function(err, res){             //connect(dbUrl, function(err, ){
   if (err) {
     console.log('DataBase connection failed')
     return
@@ -23,11 +32,6 @@ mongoose.connect(dbUrl, function(err, res){             //connect(dbUrl, functio
     console.log('DataBase connection success')
   }
 })
-
-
-// view engine setup
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'hjs');
 
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
@@ -40,6 +44,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', routes);
 // app.use('/users', users);
 app.use('/api', api)
+app.use('/scrape', scrape)
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
