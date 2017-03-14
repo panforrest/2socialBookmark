@@ -1,7 +1,8 @@
 var express = require('express')
 var router = express.Router() //express.router()
-var cheerio = require('cheerio')
+// var cheerio = require('cheerio')
 var superagent = require('superagent')
+var utils = require('../utils')
 
 router.get('/', function(req, res, next){
 	var url = req.query.url     //REMEMBER HERE IS NOT req.params.url
@@ -27,22 +28,22 @@ router.get('/', function(req, res, next){
         } 
 
         var html = response.text
-        var metaData = {}
-        var props = ['og:title', 'og:description', 'og:image']
+        var metaData = utils.Scraper.scrape(html, ['og:title', 'og:description', 'og:image'])
+ //        var props = ['og:title', 'og:description', 'og:image']
 
-        $ = cheerio.load(html)
-        $('meta').each(function(i, meta){
-            if (meta.attribs != null){
-            	var attribs = meta.attribs
-            	if (attribs.property != null){
-            		var prop = attribs.property
-            		if (props.indexOf(prop) != -1){
-            			var key = prop.replace('og:','')
-            			metaData[key] = attribs.content
-            		}
-            	}
-            }
-        })
+ //        $ = cheerio.load(html)
+ //        $('meta').each(function(i, meta){
+ //            if (meta.attribs != null){
+ //            	var attribs = meta.attribs
+ //            	if (attribs.property != null){
+ //            		var prop = attribs.property
+ //            		if (props.indexOf(prop) != -1){
+ //            			var key = prop.replace('og:','')
+ //            			metaData[key] = attribs.content
+ //            		}
+ //            	}
+ //            }
+ //        })
         metaData['url'] = url
         res.json({
         	confirmation: 'success',
