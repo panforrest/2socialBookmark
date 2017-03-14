@@ -10,6 +10,20 @@ var routes = require('./routes/index');
 var api = require('./routes/api')
 
 var app = express();
+var mongoose = require('mongoose')
+
+var dbUrl = 'mongodb://localhost/2socialBookmark'             //mongoose.server(localhost:\\2socialBookmark) 
+
+mongoose.connect(dbUrl, function(err, res){             //connect(dbUrl, function(err, ){
+  if (err) {
+    console.log('DataBase connection failed')
+    return
+  } 
+  else {
+    console.log('DataBase connection success')
+  }
+})
+
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));

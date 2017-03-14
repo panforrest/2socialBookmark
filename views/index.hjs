@@ -5,7 +5,38 @@
     <link rel='stylesheet' href='/stylesheets/style.css' />
   </head>
   <body>
-    <h1>{{ title }}</h1>
-    <p>Welcome to {{ title }}</p>
+    <h1>Create Profile</h1>
+<!--     <form method="/api/profile" type="post"> -->
+    <form action="/api/profile" method="post">
+    	<input type="text" placeholder="First Name" name="firstName" /><br />
+    	<br />
+    	<input type="submit" value="Submit" />
+
+    </form>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <br />
+
+    <h1>Create Bookmark</h1>
+    <form action="/api/bookmark" method="post">
+        <input type="text" placeholder="Url" name="url" /><br />
+    	<br />
+    	<input type="submit" value="Submit">
+
+    </form>
+
   </body>
 </html>
