@@ -1,9 +1,9 @@
 var Profile = require('../models/Profile')
-var promise = require('bluebird')
+var Promise = require('bluebird')
 
 module.exports = {
 	find: function(params){
-		return new promise(function(resolve, reject){     //(reject, resolve)
+		return new Promise(function(resolve, reject){     //(reject, resolve)
 			Profile.find(params, function(err, profiles){
 				if (err){
 					reject(err)
@@ -17,7 +17,7 @@ module.exports = {
 	},
 
     create: function(params){
-    	return new promise(function(resolve, reject){    //(reject, resolve)
+    	return new Promise(function(resolve, reject){    //(reject, resolve)
     		Profile.create(params, function(err, profile){
     			if (err){
     				reject(err)
@@ -30,7 +30,7 @@ module.exports = {
     },
 
     findById: function(id){
-    	return new promise(function(resovle, reject){
+    	return new Promise(function(resovle, reject){
     		Profile.findById(id, function(err, profile){
     			if (err) {
 	    			reject(err)
