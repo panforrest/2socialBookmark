@@ -11,7 +11,7 @@ module.exports = {
 					return
 				}
 
-                var summary = []
+                var summaries = []   //var summary = []
                 profiles.forEach(function(profile){
                     summaries.push(profile.summary())
                 })
