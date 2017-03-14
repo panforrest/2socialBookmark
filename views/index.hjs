@@ -16,7 +16,15 @@
     	<input type="submit" value="Submit" />
 
     </form>
+    <br />
+    <h1>Log in</h1>
+    <form action="/account/login" method="post">
+      <input type="text" name="email" placeholder="Email" /><br />
+      <input type="text" name="password" placeholder="Password" /><br />
+      <input type="submit" value="Submit" />
 
+
+    </form>
 
 
 
