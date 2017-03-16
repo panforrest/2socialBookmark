@@ -39,7 +39,7 @@ module.exports = {
     },
 
     findById: function(id){
-    	return new Promise(function(resovle, reject){
+    	return new Promise(function(resolve, reject){
     		Profile.findById(id, function(err, profile){
     			if (err) {
 	    			reject(err)
