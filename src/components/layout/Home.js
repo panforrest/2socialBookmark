@@ -1,12 +1,13 @@
 //default export
 import React, { Component } from 'react'
+import { Profile } from '../containers'
 
 class Home extends Component {
 	render(){
 		return (
 			<div className="row">
                 <div className="col-md-3">
-                    Left
+                    <Profile />
                 </div>
 
                 <div className="col-md-6">
@@ -14,7 +15,7 @@ class Home extends Component {
                 </div>
 
                 <div className="col-md-3">
-                    Middle
+                    Right
                 </div>
 			</div>
 
