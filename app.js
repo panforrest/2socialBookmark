@@ -14,7 +14,7 @@ var account = require('./routes/account')
 var app = express();
 var mongoose = require('mongoose')
 require('dotenv').config() //var dotenv = require('dotenv')
-
+var session = require('client-sessions')
 
 
 
@@ -40,6 +40,14 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
+app.use(session({
+  cookieName: 'session',
+  secret: process.env.SESSION_SECRET,
+  duration: 24*60*60*1000,
+  activeDuration: 30*60*1000           //age
+}))
+
+
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', routes);

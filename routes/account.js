@@ -2,6 +2,7 @@ var express = require('express')
 var router = express.Router()
 var controllers = require('../controllers')
 var bcrypt = require('bcryptjs')   //DON'T FORGET TO IMPORT
+var utils = require('../utils')
 
 router.post('/login', function(req, res, next){
 	var credentials = req.body
@@ -35,6 +36,9 @@ router.post('/login', function(req, res, next){
         	return
         }
 
+        var token = utils.JWT.sign({id: profile._id}, process.env.TOKEN_SECRET)
+        req.session.token = token
+
         res.json({
             confirmation: 'login success',
             profile: profile
@@ -50,6 +54,52 @@ router.post('/login', function(req, res, next){
 
 })
 
+router.get('/:action', function(req, res, next){
+    var action = req.params.action
 
+    if (action == 'logout') {
+        req.session.token = null
+        res.json({
+            confirmation: 'success',
+            message: 'user logged out'
+        })
+        return
+    }
+
+    if (action == 'currentuser') {
+        if (req.session == null) {
+            res.json({
+                confirmation: 'success',
+                message: 'user not logged in'
+            })
+            return
+        }
+
+        if (req.session.token == null) {
+            res.json({
+                confirmation: 'success',
+                message: 'user not logged in'
+            })
+            return
+        }
+
+        var token = req.session.token
+        utils.JWT.verify(token, process.env.TOKEN_SECRET)
+
+        .then(function(decode){
+            res.json({
+                confirmation: 'success',
+                token: decode
+            })
+        })
+        .catch(function(err){
+            res.json({
+                confirmation: 'fail',
+                token: 'invalid token'
+            })
+        })
+        
+    }
+})
 
 module.exports = router
