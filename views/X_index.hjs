@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>{{ title }}</title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+  </head>
+  <body>
+    <h1>Create Profile</h1>
+<!--     <form method="/api/profile" type="post"> -->
+    <form action="/api/profile" method="post">
+    	<input type="text" placeholder="First Name" name="firstName" /><br />
+      <input type="text" placeholder="Last Name" name="lastName" /><br />
+      <input type="text" placeholder="Email" name="email" /><br />
+      <input type="text" placeholder="Password" name="password" /><br />
+    	<br />
+    	<input type="submit" value="Submit" />
+
+    </form>
+    <br />
+    <h1>Log in</h1>
+    <form action="/account/login" method="post">
+      <input type="text" name="email" placeholder="Email" /><br />
+      <input type="text" name="password" placeholder="Password" /><br />
+      <input type="submit" value="Submit" />
+
+
+    </form>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <br />
+
+    <h1>Create Bookmark</h1>
+    <form action="/api/bookmark" method="post">
+        <input type="text" placeholder="Url" name="url" /><br />
+    	<br />
+    	<input type="submit" value="Submit">
+
+    </form>
+
+  </body>
+</html>
