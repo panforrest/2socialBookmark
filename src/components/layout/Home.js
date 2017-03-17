@@ -1,13 +1,13 @@
 //default export
 import React, { Component } from 'react'
-import { Profile } from '../containers'
+import { Profiles } from '../containers'
 
 class Home extends Component {
 	render(){
 		return (
 			<div className="row">
                 <div className="col-md-3">
-                    <Profile />
+                    <Profiles />
                 </div>
 
                 <div className="col-md-6">

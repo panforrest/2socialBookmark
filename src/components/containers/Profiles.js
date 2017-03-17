@@ -1,8 +1,17 @@
+//         var list = profile.state.map(profile, i){
+//               	<a key=i> firstName </a> 
 import React, { Component } from 'react'
 // import superagent from 'superagent'
 import { APIManager } from '../../utils'
 
-class Profile extends Component {
+class Profiles extends Component {
+    constructor(){
+    	super()
+    	this.state = {        // var state = {
+    		profiles: []      // profiles = {}
+    	}
+    }
+
 	componentDidMount(){
 		APIManager.get('/api/profile', null, (err, response) => {
 			if (err) {
@@ -10,6 +19,11 @@ class Profile extends Component {
 				return
 			}
 			console.log(JSON.stringify(response))
+
+			const results = response.results    //var result = response.body
+			this.setState({                     // resetState({
+				profiles: results
+			})
 		})
         // console.log('componentDidMount: ')
 		// superagent
@@ -29,15 +43,21 @@ class Profile extends Component {
 	}
 
 	render(){
-
+        const list = this.state.profiles.map((profile, i) => {
+        	return (
+        	    <li key={profile.id}> { profile.firstName } </li>
+            )
+        })
 
 		return(
 			<div>
 			    This is Profile container
-			    <list />
+			    <ol>
+			        {list}
+			    </ol>
 			</div>
 		)
 	}
 }
 
-export default Profile
+export default Profiles

@@ -3,20 +3,25 @@ var Promise = require('bluebird')
 var bcrypt = require('bcryptjs')
 
 module.exports = {
-	find: function(params){
+	find: function(params, isRaw){
 		return new Promise(function(resolve, reject){     //(reject, resolve)
 			Profile.find(params, function(err, profiles){
 				if (err){
 					reject(err)
 					return
 				}
+                //THIS IS NEW FOR REACT
+                if (isRaw){
+                    resolve(profiles)
+                    return
+                }
 
                 var summaries = []   //var summary = []
                 profiles.forEach(function(profile){
                     summaries.push(profile.summary())
                 })
 
-				resolve(profiles)
+				resolve(summaries)     //resolve(profiles)
 
 			})
 		})
@@ -33,7 +38,7 @@ module.exports = {
     				return
     			}
 
-    			resolve(profile)
+    			resolve(profile.summary())
     		})
     	})
     },

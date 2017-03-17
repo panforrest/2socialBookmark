@@ -1,5 +1,5 @@
-import Profile from './Profile'
+import Profiles from './Profiles'
 
 export {
-	Profile
+	Profiles
 }

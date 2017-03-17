@@ -15,11 +15,11 @@ router.get('/:resource', function(req, res, next){   //NOT router.get('/', funct
         return
     }
 
-    controller.find(req.query)      //find.query(query.body)
+    controller.find(req.query, false)      //find.query(query.body)
     .then(function(entities){       //.catch
         res.json({
         	confirmation: 'success',
-        	resource: entities
+        	results: entities     //REMEMBER HERE IS A KILLER TO KILL WHOLE PROJECT, WRONG WAY IS  resource: entities
         })
     })        
     .catch(function(err){           //.return
