@@ -15,6 +15,13 @@ export default(state=initialState, action) => {
             updated ['list'] = action.profiles 
             return updated     //return state
 
+        case constants.PROFILE_CREATED:
+            // console.log('PROFILES_RECEIVED: '+JSON.stringify(action.profiles))
+            let updatedList = Object.assign([], updated.list)
+            updatedList.push(action.profile)
+            updated ['list'] = updatedList
+            return updated     //return state
+
         default:
             return state     //return 
         

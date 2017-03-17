@@ -30,11 +30,11 @@ class Profiles extends Component {
 
 	componentDidMount(){
 		APIManager.get('/api/profile', null, (err, response) => {
-			if (err) {
-				alert(err)
-				return
-			}
-			console.log(JSON.stringify(response))
+			// if (err) {       NOT SURE WHY SHOULD REMOVE AT THIS PORINT if (err) {}
+			// 	alert(err)
+			// 	return
+			// }
+			// console.log(JSON.stringify(response))
 
 			const results = response.results    //var result = response.body
 			// this.setState({                     // resetState({
@@ -60,7 +60,7 @@ class Profiles extends Component {
 	}
 
 	render(){
-        const list = this.state.profiles.map((profile, i) => {
+        const list = this.props.profiles.map((profile, i) => {
         	return (
         	    <li key={profile.id}> { profile.firstName } </li>
             )
@@ -85,7 +85,7 @@ const stateToProps = (state) => {
 
 const dispatchToProps = (dispatch) => {
 	return {
-        profilesReceived: (profiles) => dispatch(actions.profilesReceived(profiles))
+        profilesReceived: (profiles) => dispatch(actions.profilesReceived(profiles))       
 	}
 }
 

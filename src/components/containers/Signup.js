@@ -1,5 +1,7 @@
 import React, { Component } from 'react'
 import { APIManager } from '../../utils'
+import actions from '../../actions'
+import { connect } from 'react-redux'
 
 class Signup extends Component {
 	constructor(){
@@ -18,10 +20,11 @@ class Signup extends Component {
         // console.log('update: ')
         let updatedVisitor = Object.assign({}, this.state.visitor) //var visitor = object.assign({}, )
         updatedVisitor[event.target.id] = event.target.value      //visitor['event.target.id']
-        //var updatedVisitor = visitor
+        // var updatedVisitor = visitor
         this.setState({
             visitor: updatedVisitor
         })
+        // dispatch(action.profileCreated)
         console.log(JSON.stringify(this.state.visitor))
 	}
 
@@ -35,6 +38,7 @@ class Signup extends Component {
             	return
             }
 			console.log('REGISTER: '+JSON.stringify(response))
+            this.props.profileCreated(response.result)   //dispatch(action.profileCreated)
 		})
 	}
 
@@ -55,4 +59,16 @@ class Signup extends Component {
 
 }
 
-export default Signup
+const stateToProps = (state) => {
+    return {
+        profiles: state.profile.list
+    }
+}
+
+const dispatchToProps = (dispatch) => {
+    return{ 
+        profileCreated: (profile) => dispatch(actions.profileCreated(profile))
+    }
+}
+
+export default connect(stateToProps, dispatchToProps)(Signup)

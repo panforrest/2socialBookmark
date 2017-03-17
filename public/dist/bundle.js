@@ -10509,6 +10509,13 @@ exports.default = { //module.exports = {
             profiles: profiles
 
         };
+    },
+
+    profileCreated: function profileCreated(profile) {
+        return {
+            type: _constants2.default.PROFILE_CREATED, //action: constants.PROFILE_CREATED,     
+            profile: profile
+        };
     }
 };
 
@@ -10586,11 +10593,11 @@ var Profiles = function (_Component) {
 			var _this2 = this;
 
 			_utils.APIManager.get('/api/profile', null, function (err, response) {
-				if (err) {
-					alert(err);
-					return;
-				}
-				console.log(JSON.stringify(response));
+				// if (err) {       NOT SURE WHY SHOULD REMOVE AT THIS PORINT if (err) {}
+				// 	alert(err)
+				// 	return
+				// }
+				// console.log(JSON.stringify(response))
 
 				var results = response.results; //var result = response.body
 				// this.setState({                     // resetState({
@@ -10616,7 +10623,7 @@ var Profiles = function (_Component) {
 	}, {
 		key: 'render',
 		value: function render() {
-			var list = this.state.profiles.map(function (profile, i) {
+			var list = this.props.profiles.map(function (profile, i) {
 				return _react2.default.createElement(
 					'li',
 					{ key: profile.id },
@@ -10666,7 +10673,7 @@ exports.default = (0, _reactRedux.connect)(stateToProps, dispatchToProps)(Profil
 
 
 Object.defineProperty(exports, "__esModule", {
-  value: true
+    value: true
 });
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -10677,6 +10684,12 @@ var _react2 = _interopRequireDefault(_react);
 
 var _utils = __webpack_require__(58);
 
+var _actions = __webpack_require__(98);
+
+var _actions2 = _interopRequireDefault(_actions);
+
+var _reactRedux = __webpack_require__(57);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -10686,85 +10699,103 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 var Signup = function (_Component) {
-  _inherits(Signup, _Component);
+    _inherits(Signup, _Component);
 
-  function Signup() {
-    _classCallCheck(this, Signup);
+    function Signup() {
+        _classCallCheck(this, Signup);
 
-    var _this = _possibleConstructorReturn(this, (Signup.__proto__ || Object.getPrototypeOf(Signup)).call(this));
+        var _this = _possibleConstructorReturn(this, (Signup.__proto__ || Object.getPrototypeOf(Signup)).call(this));
 
-    _this.state = {
-      visitor: { //profile: [
-        firstName: '',
-        lastName: '',
-        email: '',
-        password: ''
-      }
-    };
-    return _this;
-  }
-
-  _createClass(Signup, [{
-    key: 'update',
-    value: function update(event) {
-      //update(){ 
-      // console.log('update: ')
-      var updatedVisitor = Object.assign({}, this.state.visitor); //var visitor = object.assign({}, )
-      updatedVisitor[event.target.id] = event.target.value; //visitor['event.target.id']
-      //var updatedVisitor = visitor
-      this.setState({
-        visitor: updatedVisitor
-      });
-      console.log(JSON.stringify(this.state.visitor));
+        _this.state = {
+            visitor: { //profile: [
+                firstName: '',
+                lastName: '',
+                email: '',
+                password: ''
+            }
+        };
+        return _this;
     }
-  }, {
-    key: 'register',
-    value: function register(event) {
-      event.preventDefault();
-      // console.log('register: ')
-      _utils.APIManager.post('/api/profile', this.state.visitor, function (err, response) {
-        //, null, (err, profile)
-        if (err) {
-          var msg = err.message || err;
-          alert(msg);
-          return;
+
+    _createClass(Signup, [{
+        key: 'update',
+        value: function update(event) {
+            //update(){ 
+            // console.log('update: ')
+            var updatedVisitor = Object.assign({}, this.state.visitor); //var visitor = object.assign({}, )
+            updatedVisitor[event.target.id] = event.target.value; //visitor['event.target.id']
+            // var updatedVisitor = visitor
+            this.setState({
+                visitor: updatedVisitor
+            });
+            // dispatch(action.profileCreated)
+            console.log(JSON.stringify(this.state.visitor));
         }
-        console.log('REGISTER: ' + JSON.stringify(response));
-      });
-    }
-  }, {
-    key: 'render',
-    value: function render() {
-      return _react2.default.createElement(
-        'div',
-        null,
-        'This is Signup container.',
-        _react2.default.createElement(
-          'h2',
-          null,
-          'Sign up'
-        ),
-        _react2.default.createElement('input', { onChange: this.update.bind(this), type: 'text', id: 'firstName', placeholder: 'First name' }),
-        _react2.default.createElement('br', null),
-        _react2.default.createElement('input', { onChange: this.update.bind(this), type: 'text', id: 'lastName', placeholder: 'Last name' }),
-        _react2.default.createElement('br', null),
-        _react2.default.createElement('input', { onChange: this.update.bind(this), type: 'text', id: 'email', placeholder: 'Email' }),
-        _react2.default.createElement('br', null),
-        _react2.default.createElement('input', { onChange: this.update.bind(this), type: 'text', id: 'password', placeholder: 'Password' }),
-        _react2.default.createElement('br', null),
-        _react2.default.createElement(
-          'button',
-          { onClick: this.register.bind(this) },
-          'Submit'
-        )
-      );
-    }
-  }]);
+    }, {
+        key: 'register',
+        value: function register(event) {
+            var _this2 = this;
 
-  return Signup;
+            event.preventDefault();
+            // console.log('register: ')
+            _utils.APIManager.post('/api/profile', this.state.visitor, function (err, response) {
+                //, null, (err, profile)
+                if (err) {
+                    var msg = err.message || err;
+                    alert(msg);
+                    return;
+                }
+                console.log('REGISTER: ' + JSON.stringify(response));
+                _this2.props.profileCreated(response.result); //dispatch(action.profileCreated)
+            });
+        }
+    }, {
+        key: 'render',
+        value: function render() {
+            return _react2.default.createElement(
+                'div',
+                null,
+                'This is Signup container.',
+                _react2.default.createElement(
+                    'h2',
+                    null,
+                    'Sign up'
+                ),
+                _react2.default.createElement('input', { onChange: this.update.bind(this), type: 'text', id: 'firstName', placeholder: 'First name' }),
+                _react2.default.createElement('br', null),
+                _react2.default.createElement('input', { onChange: this.update.bind(this), type: 'text', id: 'lastName', placeholder: 'Last name' }),
+                _react2.default.createElement('br', null),
+                _react2.default.createElement('input', { onChange: this.update.bind(this), type: 'text', id: 'email', placeholder: 'Email' }),
+                _react2.default.createElement('br', null),
+                _react2.default.createElement('input', { onChange: this.update.bind(this), type: 'text', id: 'password', placeholder: 'Password' }),
+                _react2.default.createElement('br', null),
+                _react2.default.createElement(
+                    'button',
+                    { onClick: this.register.bind(this) },
+                    'Submit'
+                )
+            );
+        }
+    }]);
+
+    return Signup;
 }(_react.Component);
 
-exports.default = Signup;
+var stateToProps = function stateToProps(state) {
+    return {
+        profiles: state.profile.list
+    };
+};
+
+var dispatchToProps = function dispatchToProps(dispatch) {
+    return {
+        profileCreated: function profileCreated(profile) {
+            return dispatch(_actions2.default.profileCreated(profile));
+        }
+    };
+};
+
+exports.default = (0, _reactRedux.connect)(stateToProps, dispatchToProps)(Signup);
 
 /***/ }),
 /* 101 */
@@ -10870,8 +10901,8 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = { //module.exports = {
 
-	PROFILES_RECEIVED: 'PROFILES_RECEIVED' //PROFILES_RECEIVED: PROFILES_RECEIVED
-
+	PROFILES_RECEIVED: 'PROFILES_RECEIVED', //PROFILES_RECEIVED: PROFILES_RECEIVED
+	PROFILE_CREATED: 'PROFILE_CREATED'
 };
 
 /***/ }),
@@ -10928,6 +10959,13 @@ exports.default = function () {
         case _constants2.default.PROFILES_RECEIVED:
             console.log('PROFILES_RECEIVED: ' + JSON.stringify(action.profiles));
             updated['list'] = action.profiles;
+            return updated; //return state
+
+        case _constants2.default.PROFILE_CREATED:
+            // console.log('PROFILES_RECEIVED: '+JSON.stringify(action.profiles))
+            var updatedList = Object.assign([], updated.list);
+            updatedList.push(action.profile);
+            updated['list'] = updatedList;
             return updated; //return state
 
         default:

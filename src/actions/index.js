@@ -8,6 +8,13 @@ export default {    //module.exports = {
     		profiles: profiles 
 
     	}
+    },
+
+    profileCreated: (profile) => {
+        return {
+        	type: constants.PROFILE_CREATED,    //action: constants.PROFILE_CREATED,     
+        	profile: profile
+        }    	
     }
 }
 
