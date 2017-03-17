@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { APIManager } from '../../utils'
 
 class Signup extends Component {
 	constructor(){
@@ -24,6 +25,19 @@ class Signup extends Component {
         console.log(JSON.stringify(this.state.visitor))
 	}
 
+	register(event){
+		event.preventDefault()
+		// console.log('register: ')
+		APIManager.post('/api/profile', this.state.visitor, (err, response) => {  //, null, (err, profile)
+            if (err) {
+            	let msg = err.message || err
+            	alert(msg)
+            	return
+            }
+			console.log('REGISTER: '+JSON.stringify(response))
+		})
+	}
+
 	render(){
 		return(
             <div>
@@ -33,7 +47,7 @@ class Signup extends Component {
                 <input onChange={this.update.bind(this)} type="text" id="lastName" placeholder="Last name" /><br />
                 <input onChange={this.update.bind(this)} type="text" id="email" placeholder="Email" /><br />
                 <input onChange={this.update.bind(this)} type="text" id="password" placeholder="Password" /><br />
-                <button>Submit</button>
+                <button onClick={this.register.bind(this)}>Submit</button>
 
             </div>
 		)

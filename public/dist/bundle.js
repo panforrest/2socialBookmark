@@ -9693,7 +9693,7 @@ exports.default = Home;
 
 
 Object.defineProperty(exports, "__esModule", {
-		value: true
+  value: true
 });
 
 var _superagent = __webpack_require__(185);
@@ -9703,19 +9703,31 @@ var _superagent2 = _interopRequireDefault(_superagent);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 exports.default = { //REPEATING MISTAKE, SHOULD BE export default NOT module.exports =
-		get: function get(endpoint, params, callback) {
+  get: function get(endpoint, params, callback) {
 
-				_superagent2.default.get(endpoint).query(params) //.query(null)      
-				.set('Accept', 'application/json') //.set('Application', 'application/json')
-				.end(function (err, response) {
-						if (err) {
-								// const msg = err || err.message
-								callback(err, null); // SHOULD NOT BE alert(msg)
-								return;
-						}
-						callback(null, response.body);
-				});
-		}
+    _superagent2.default.get(endpoint).query(params) //.query(null)      
+    .set('Accept', 'application/json') //.set('Application', 'application/json')
+    .end(function (err, response) {
+      if (err) {
+        // const msg = err || err.message
+        callback(err, null); // SHOULD NOT BE alert(msg)
+        return;
+      }
+      callback(null, response.body);
+    });
+  },
+
+  post: function post(endpoint, params, callback) {
+    _superagent2.default.post(endpoint) //get(endpoint)
+    .send(params) //.query(params)
+    .set('Accept', 'application/json').end(function (err, response) {
+      if (err) {
+        callback(err, null);
+        return;
+      }
+      callback(null, response.body); //IT IS CRITICAL TO HAVE response.body, NOT response IN HERE
+    });
+  }
 };
 
 /***/ }),
@@ -24007,6 +24019,8 @@ var _react = __webpack_require__(31);
 
 var _react2 = _interopRequireDefault(_react);
 
+var _utils = __webpack_require__(87);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -24048,6 +24062,21 @@ var Signup = function (_Component) {
       console.log(JSON.stringify(this.state.visitor));
     }
   }, {
+    key: 'register',
+    value: function register(event) {
+      event.preventDefault();
+      // console.log('register: ')
+      _utils.APIManager.post('/api/profile', this.state.visitor, function (err, response) {
+        //, null, (err, profile)
+        if (err) {
+          var msg = err.message || err;
+          alert(msg);
+          return;
+        }
+        console.log('REGISTER: ' + JSON.stringify(response));
+      });
+    }
+  }, {
     key: 'render',
     value: function render() {
       return _react2.default.createElement(
@@ -24069,7 +24098,7 @@ var Signup = function (_Component) {
         _react2.default.createElement('br', null),
         _react2.default.createElement(
           'button',
-          null,
+          { onClick: this.register.bind(this) },
           'Submit'
         )
       );
