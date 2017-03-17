@@ -10696,7 +10696,10 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } // <h2>Sign in</h2>
+// <input onChange={this.update.bind(this)} type="text" id="email" placeholder="Email" /><br />
+// <input onChange={this.update.bind(this)} type="text" id="password" placeholder="Password" /><br />
+// <button onClick={this.login.bind(this)}>Submit</button>
 
 var Signup = function (_Component) {
     _inherits(Signup, _Component);
@@ -10738,7 +10741,7 @@ var Signup = function (_Component) {
 
             event.preventDefault();
             // console.log('register: ')
-            _utils.APIManager.post('/api/profile', this.state.visitor, function (err, response) {
+            _utils.APIManager.post('/account/register', this.state.visitor, function (err, response) {
                 //, null, (err, profile)
                 if (err) {
                     var msg = err.message || err;
@@ -10746,9 +10749,12 @@ var Signup = function (_Component) {
                     return;
                 }
                 console.log('REGISTER: ' + JSON.stringify(response));
-                _this2.props.profileCreated(response.result); //dispatch(action.profileCreated)
+                _this2.props.profileCreated(response.profile); //this.props.profileCreated(response.result)
             });
         }
+    }, {
+        key: 'login',
+        value: function login(event) {}
     }, {
         key: 'render',
         value: function render() {

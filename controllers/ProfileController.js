@@ -1,6 +1,7 @@
 var Profile = require('../models/Profile')
 var Promise = require('bluebird')
 var bcrypt = require('bcryptjs')
+// var utils = require('../utils')
 
 module.exports = {
 	find: function(params, isRaw){
@@ -37,6 +38,9 @@ module.exports = {
     				reject(err)
     				return
     			}
+
+                // var token = utils.JWT.sign({id: profile._id}, process.env.TOKEN_SECRET)
+                // req.session.token = token
 
     			resolve(profile.summary())
     		})

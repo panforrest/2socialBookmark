@@ -110,4 +110,26 @@ router.get('/:action', function(req, res, next){
     }
 })
 
+router.post('/register', function(req, res, next){
+    controllers.profile   //var controller = controllers['profile']
+    .create(req.body)             //controller.create(req.body)
+    .then(function(profile){      //.then(function(result){
+
+        var token = utils.JWT.sign({id: profile.id}, process.env.TOKEN_SECRET)  //({id: profile._id}, process.env.TOKEN_SECRET)
+        req.session.token = token
+
+        res.json({
+            confirmation: 'success',
+            profile: profile,   //CHANGE NOW
+            token: token    //ADDED NOW
+        })
+    })
+    .catch(function(err){
+        res.json({
+            confirmation: 'fail',
+            message: err
+        })
+    })  
+})
+
 module.exports = router

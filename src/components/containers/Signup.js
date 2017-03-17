@@ -1,3 +1,8 @@
+                // <h2>Sign in</h2>
+                // <input onChange={this.update.bind(this)} type="text" id="email" placeholder="Email" /><br />
+                // <input onChange={this.update.bind(this)} type="text" id="password" placeholder="Password" /><br />
+                // <button onClick={this.login.bind(this)}>Submit</button>
+
 import React, { Component } from 'react'
 import { APIManager } from '../../utils'
 import actions from '../../actions'
@@ -31,16 +36,20 @@ class Signup extends Component {
 	register(event){
 		event.preventDefault()
 		// console.log('register: ')
-		APIManager.post('/api/profile', this.state.visitor, (err, response) => {  //, null, (err, profile)
+		APIManager.post('/account/register', this.state.visitor, (err, response) => {  //, null, (err, profile)
             if (err) {
             	let msg = err.message || err
             	alert(msg)
             	return
             }
 			console.log('REGISTER: '+JSON.stringify(response))
-            this.props.profileCreated(response.result)   //dispatch(action.profileCreated)
+            this.props.profileCreated(response.profile)   //this.props.profileCreated(response.result)
 		})
 	}
+
+    login(event){
+
+    } 
 
 	render(){
 		return(
@@ -52,6 +61,9 @@ class Signup extends Component {
                 <input onChange={this.update.bind(this)} type="text" id="email" placeholder="Email" /><br />
                 <input onChange={this.update.bind(this)} type="text" id="password" placeholder="Password" /><br />
                 <button onClick={this.register.bind(this)}>Submit</button>
+                
+
+
 
             </div>
 		)
