@@ -10535,8 +10535,6 @@ var _actions = __webpack_require__(98);
 
 var _actions2 = _interopRequireDefault(_actions);
 
-var _store = __webpack_require__(56);
-
 var _reactRedux = __webpack_require__(57);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -10562,7 +10560,8 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 //               	<a key=i> firstName </a> 
 
 // import superagent from 'superagent'
-//I DON'T NEED THIS LINE HERE
+
+// import { store } from '../../store'   //I DON'T NEED THIS LINE HERE
 
 
 //WHY I ALWAYS FORGOT THIS LINE
@@ -10645,7 +10644,7 @@ var Profiles = function (_Component) {
 
 var stateToProps = function stateToProps(state) {
 	return {
-		profile: state.profile.list
+		profiles: state.profile.list
 	};
 };
 
@@ -10923,11 +10922,13 @@ exports.default = function () {
     var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : initialState;
     var action = arguments[1];
 
+    var updated = Object.assign({}, state); //= Object.assign({}, action.profiles), SHOULD BEFORE swithc(){}
     switch (action.type) {
 
         case _constants2.default.PROFILES_RECEIVED:
             console.log('PROFILES_RECEIVED: ' + JSON.stringify(action.profiles));
-            return state;
+            updated['list'] = action.profiles;
+            return updated; //return state
 
         default:
             return state; //return 

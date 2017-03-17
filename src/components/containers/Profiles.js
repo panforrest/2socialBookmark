@@ -17,7 +17,7 @@ import React, { Component } from 'react'
 // import superagent from 'superagent'
 import { APIManager } from '../../utils'
 import actions from '../../actions'
-import { store } from '../../store'   //I DON'T NEED THIS LINE HERE
+// import { store } from '../../store'   //I DON'T NEED THIS LINE HERE
 import { connect } from 'react-redux'   //WHY I ALWAYS FORGOT THIS LINE
 
 class Profiles extends Component {
@@ -79,7 +79,7 @@ class Profiles extends Component {
 
 const stateToProps = (state) => {
 	return {
-        profile: state.profile.list
+        profiles: state.profile.list
 	}
 }
 
