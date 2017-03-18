@@ -10588,9 +10588,11 @@ var Admin = function (_Component) {
 
     var _this = _possibleConstructorReturn(this, (Admin.__proto__ || Object.getPrototypeOf(Admin)).call(this));
 
-    _this.state; //= {
-    //           profile = {}
-    // }
+    _this.state = {
+      visitor: { //DON'T FORGET THIS LINE
+        url: ''
+      }
+    };
     return _this;
   }
 
@@ -10643,16 +10645,62 @@ var Admin = function (_Component) {
       });
     }
   }, {
+    key: 'updateLink',
+    value: function updateLink(event) {
+      event.preventDefault();
+      // console.log('updateLink: ')
+      // var updated = Object.assign({}, this.state.visitor)
+      //    updated[event.target.id] = event.target.value
+      this.setState({
+        link: event.target.value
+      });
+      console.log('updatedLink: ' + JSON.stringify(this.state.link));
+    }
+  }, {
+    key: 'submitLink',
+    value: function submitLink(event) {
+      event.preventDefault();
+      // console.log('submitLink: ')
+      var bookmark = {
+        profile: this.props.currentUser.id, //profile: this.props.profile.id,
+        url: this.state.link
+      };
+      console.log('bookmark priorSubmitLink: ' + JSON.stringify(bookmark));
+      _utils.APIManager.post('/api/bookmark', bookmark, function (err, response) {
+        if (err) {
+          var msg = err.message || err;
+          alert(err);
+          return;
+        }
+        console.log('submitLink: ' + JSON.stringify(response));
+      });
+    }
+  }, {
     key: 'render',
     value: function render() {
       return _react2.default.createElement(
         'div',
         null,
         this.props.currentUser == null ? _react2.default.createElement(_presentation.Signup, { onRegister: this.register.bind(this), onLogin: this.login.bind(this) }) : _react2.default.createElement(
-          'h2',
+          'div',
           null,
-          'Welcome, ',
-          this.props.currentUser.firstName
+          _react2.default.createElement(
+            'h2',
+            null,
+            'Welcome, ',
+            this.props.currentUser.firstName
+          ),
+          _react2.default.createElement(
+            'h2',
+            null,
+            ' Create Bookmark '
+          ),
+          _react2.default.createElement('input', { onChange: this.updateLink.bind(this), type: 'text', id: 'url', placeholder: 'Url' }),
+          _react2.default.createElement(
+            'button',
+            { onClick: this.submitLink.bind(this) },
+            'submit'
+          )
         )
       );
     }

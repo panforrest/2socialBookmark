@@ -8,9 +8,11 @@ import { APIManager } from '../../utils'
 class Admin extends Component {
 	constructor(){
 		super()
-		this.state //= {
-  //           profile = {}
-		// }
+		this.state = {
+			visitor: {   //DON'T FORGET THIS LINE
+			    url: ''
+			}    
+		}
 	}
 
 	componentDidMount(){
@@ -51,15 +53,49 @@ class Admin extends Component {
 
     }
 
+    updateLink(event){
+    	event.preventDefault()
+    	// console.log('updateLink: ')
+    	// var updated = Object.assign({}, this.state.visitor)
+     //    updated[event.target.id] = event.target.value
+    	this.setState({
+            link: event.target.value
+    	})
+    	console.log('updatedLink: '+JSON.stringify(this.state.link))
+    }
+
+    submitLink(event){
+    	event.preventDefault()
+    	// console.log('submitLink: ')
+    	const bookmark = {
+    		profile: this.props.currentUser.id,    //profile: this.props.profile.id,
+    		url: this.state.link
+    	}
+    	console.log('bookmark priorSubmitLink: '+JSON.stringify(bookmark))
+    	APIManager.post('/api/bookmark', bookmark, (err, response) => {
+    		if (err) {
+    			let msg = err.message || err
+    			alert(err)
+    			return
+    		}
+    		console.log('submitLink: '+JSON.stringify(response))
+    	})
+    }
+
     render(){
     	return(
     		<div>
-    		    {(this.props.currentUser == null) ? <Signup onRegister={this.register.bind(this)} onLogin={this.login.bind(this)}/>: 
-    		      
-    		    	
-                    
-                    <h2>Welcome, { this.props.currentUser.firstName }</h2>
+    		    {(this.props.currentUser == null) ? <Signup onRegister={this.register.bind(this)} onLogin={this.login.bind(this)}/>:                    
+                  <div>
+                    <h2>Welcome, { this.props.currentUser.firstName }</h2> 
+
+                
+                    <h2> Create Bookmark </h2>
+                    <input onChange={this.updateLink.bind(this)} type="text" id="url" placeholder="Url" />
+                    <button onClick={this.submitLink.bind(this)}>submit</button>
+                  </div> 
     		    }
+
     		</div>
     	)
     }
