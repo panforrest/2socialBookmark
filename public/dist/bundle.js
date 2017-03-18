@@ -4643,6 +4643,13 @@ exports.default = { //module.exports = {
             type: _constants2.default.BOOKMARKS_RECEIVED,
             bookmarks: bookmarks
         };
+    },
+
+    profileSelected: function profileSelected(profile) {
+        return {
+            type: _constants2.default.PROFILE_SELECTED,
+            profile: profile
+        };
     }
 };
 
@@ -4661,7 +4668,8 @@ exports.default = { //module.exports = {
 	PROFILES_RECEIVED: 'PROFILES_RECEIVED', //PROFILES_RECEIVED: PROFILES_RECEIVED
 	PROFILE_CREATED: 'PROFILE_CREATED',
 	CURRENT_USER_RECEIVED: 'CURRENT_USER_RECEIVED',
-	BOOKMARKS_RECEIVED: 'BOOKMARKS_RECEIVED'
+	BOOKMARKS_RECEIVED: 'BOOKMARKS_RECEIVED',
+	PROFILE_SELECTED: 'PROFILE_SELECTED'
 };
 
 /***/ }),
@@ -10951,7 +10959,8 @@ var Profiles = function (_Component) {
 		key: 'selectProfile',
 		value: function selectProfile(profile, event) {
 			event.preventDefault();
-			console.log('selectProfile: ' + JSON.stringify(profile)); //(this.state.selected))
+			// console.log('selectProfile: '+JSON.stringify(profile))   //(this.state.selected))
+			this.props.profileSelected(profile); //(JSON.stringify(profile))
 		}
 	}, {
 		key: 'render',
@@ -11028,6 +11037,9 @@ var dispatchToProps = function dispatchToProps(dispatch) {
 	return {
 		profilesReceived: function profilesReceived(profiles) {
 			return dispatch(_actions2.default.profilesReceived(profiles));
+		},
+		profileSelected: function profileSelected(profile) {
+			return dispatch(_actions2.default.profileSelected(profile));
 		}
 	};
 };
@@ -11435,6 +11447,9 @@ exports.default = function () {
             updatedList.push(action.profile);
             updated['list'] = updatedList;
             return updated; //return state
+
+        case _constants2.default.PROFILE_SELECTED:
+            console.log('PROFILE_SELECTED: ' + JSON.stringify(action.profile)); //+JSON.stringify(profile)) 
 
         default:
             return state; //return 

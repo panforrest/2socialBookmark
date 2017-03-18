@@ -24,6 +24,9 @@ export default(state=initialState, action) => {
             updated ['list'] = updatedList
             return updated     //return state
 
+        case constants.PROFILE_SELECTED:
+            console.log('PROFILE_SELECTED: '+JSON.stringify(action.profile))     //+JSON.stringify(profile)) 
+
         default:
             return state     //return 
         
