@@ -1,9 +1,9 @@
 import Profiles from './Profiles'
-// import Signup from './Signup'
+import Bookmarks from './Bookmarks'
 import Admin from './Admin'
 
 export {
 	Profiles,
-	// Signup,
+	Bookmarks,
 	Admin
 }
