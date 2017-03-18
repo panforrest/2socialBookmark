@@ -1,8 +1,3 @@
-                // <h2>Sign in</h2>
-                // <input onChange={this.update.bind(this)} type="text" id="email" placeholder="Email" /><br />
-                // <input onChange={this.update.bind(this)} type="text" id="password" placeholder="Password" /><br />
-                // <button onClick={this.login.bind(this)}>Submit</button>
-
 import React, { Component } from 'react'
 import { APIManager } from '../../utils'
 import actions from '../../actions'
@@ -48,6 +43,18 @@ class Signup extends Component {
 	}
 
     login(event){
+        event.preventDefault()
+        // console.log('log in: ')
+        APIManager.post('/account/login', this.state.visitor, (err, response) => {
+            if (err){
+                const msg = err.message || err
+                alert(msg)  //alert(err)
+                return
+            }
+
+            console.log('LOGIN: '+JSON.stringify(response))
+            this.props.currentUserReceived(response.profile)    //this.props.currentUerReceived(response)
+        })
 
     } 
 
@@ -63,6 +70,13 @@ class Signup extends Component {
                 <input onChange={this.update.bind(this)} type="text" id="email" placeholder="Email" /><br />
                 <input onChange={this.update.bind(this)} type="text" id="password" placeholder="Password" /><br />
                 <button onClick={this.register.bind(this)}>Submit</button>
+
+                <h2>Sign in</h2>
+                <input onChange={this.update.bind(this)} type="text" id="email" placeholder="Email" /><br />
+                <input onChange={this.update.bind(this)} type="text" id="password" placeholder="Password" /><br />
+                <button onClick={this.login.bind(this)}>Submit</button>
+
+
               </div>               
  
                
@@ -83,7 +97,7 @@ const stateToProps = (state) => {
 const dispatchToProps = (dispatch) => {
     return{ 
         profileCreated: (profile) => dispatch(actions.profileCreated(profile)),
-        currentUserReceived: (profile) => dispatch(actions.currentuserReceived(profile))
+        currentUserReceived: (profile) => dispatch(actions.currentUserReceived(profile))
     }
 }
 

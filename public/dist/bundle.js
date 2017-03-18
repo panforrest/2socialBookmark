@@ -10698,7 +10698,7 @@ exports.default = (0, _reactRedux.connect)(stateToProps, dispatchToProps)(Profil
 
 
 Object.defineProperty(exports, "__esModule", {
-  value: true
+    value: true
 });
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -10721,121 +10721,147 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } // <h2>Sign in</h2>
-// <input onChange={this.update.bind(this)} type="text" id="email" placeholder="Email" /><br />
-// <input onChange={this.update.bind(this)} type="text" id="password" placeholder="Password" /><br />
-// <button onClick={this.login.bind(this)}>Submit</button>
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 var Signup = function (_Component) {
-  _inherits(Signup, _Component);
+    _inherits(Signup, _Component);
 
-  function Signup() {
-    _classCallCheck(this, Signup);
+    function Signup() {
+        _classCallCheck(this, Signup);
 
-    var _this = _possibleConstructorReturn(this, (Signup.__proto__ || Object.getPrototypeOf(Signup)).call(this));
+        var _this = _possibleConstructorReturn(this, (Signup.__proto__ || Object.getPrototypeOf(Signup)).call(this));
 
-    _this.state = {
-      visitor: { //profile: [
-        firstName: '',
-        lastName: '',
-        email: '',
-        password: ''
-      }
-    };
-    return _this;
-  }
-
-  _createClass(Signup, [{
-    key: 'update',
-    value: function update(event) {
-      //update(){ 
-      // console.log('update: ')
-      var updatedVisitor = Object.assign({}, this.state.visitor); //var visitor = object.assign({}, )
-      updatedVisitor[event.target.id] = event.target.value; //visitor['event.target.id']
-      // var updatedVisitor = visitor
-      this.setState({
-        visitor: updatedVisitor
-      });
-      // dispatch(action.profileCreated)
-      console.log(JSON.stringify(this.state.visitor));
+        _this.state = {
+            visitor: { //profile: [
+                firstName: '',
+                lastName: '',
+                email: '',
+                password: ''
+            }
+        };
+        return _this;
     }
-  }, {
-    key: 'register',
-    value: function register(event) {
-      var _this2 = this;
 
-      event.preventDefault();
-      // console.log('register: ')
-      _utils.APIManager.post('/account/register', this.state.visitor, function (err, response) {
-        //, null, (err, profile)
-        if (err) {
-          var msg = err.message || err;
-          alert(msg);
-          return;
+    _createClass(Signup, [{
+        key: 'update',
+        value: function update(event) {
+            //update(){ 
+            // console.log('update: ')
+            var updatedVisitor = Object.assign({}, this.state.visitor); //var visitor = object.assign({}, )
+            updatedVisitor[event.target.id] = event.target.value; //visitor['event.target.id']
+            // var updatedVisitor = visitor
+            this.setState({
+                visitor: updatedVisitor
+            });
+            // dispatch(action.profileCreated)
+            console.log(JSON.stringify(this.state.visitor));
         }
-        console.log('REGISTER: ' + JSON.stringify(response));
-        _this2.props.profileCreated(response.profile); //this.props.profileCreated(response.result)
-      });
-    }
-  }, {
-    key: 'login',
-    value: function login(event) {}
-  }, {
-    key: 'render',
-    value: function render() {
-      return _react2.default.createElement(
-        'div',
-        null,
-        this.props.currentUser != null ? _react2.default.createElement(
-          'h2',
-          null,
-          'Welcome, ',
-          this.props.currentUser.firstName
-        ) : _react2.default.createElement(
-          'div',
-          null,
-          _react2.default.createElement(
-            'h2',
-            null,
-            'Sign up'
-          ),
-          _react2.default.createElement('input', { onChange: this.update.bind(this), type: 'text', id: 'firstName', placeholder: 'First name' }),
-          _react2.default.createElement('br', null),
-          _react2.default.createElement('input', { onChange: this.update.bind(this), type: 'text', id: 'lastName', placeholder: 'Last name' }),
-          _react2.default.createElement('br', null),
-          _react2.default.createElement('input', { onChange: this.update.bind(this), type: 'text', id: 'email', placeholder: 'Email' }),
-          _react2.default.createElement('br', null),
-          _react2.default.createElement('input', { onChange: this.update.bind(this), type: 'text', id: 'password', placeholder: 'Password' }),
-          _react2.default.createElement('br', null),
-          _react2.default.createElement(
-            'button',
-            { onClick: this.register.bind(this) },
-            'Submit'
-          )
-        )
-      );
-    }
-  }]);
+    }, {
+        key: 'register',
+        value: function register(event) {
+            var _this2 = this;
 
-  return Signup;
+            event.preventDefault();
+            // console.log('register: ')
+            _utils.APIManager.post('/account/register', this.state.visitor, function (err, response) {
+                //, null, (err, profile)
+                if (err) {
+                    var msg = err.message || err;
+                    alert(msg);
+                    return;
+                }
+                console.log('REGISTER: ' + JSON.stringify(response));
+                _this2.props.profileCreated(response.profile); //this.props.profileCreated(response.result)
+            });
+        }
+    }, {
+        key: 'login',
+        value: function login(event) {
+            var _this3 = this;
+
+            event.preventDefault();
+            // console.log('log in: ')
+            _utils.APIManager.post('/account/login', this.state.visitor, function (err, response) {
+                if (err) {
+                    var msg = err.message || err;
+                    alert(msg); //alert(err)
+                    return;
+                }
+
+                console.log('LOGIN: ' + JSON.stringify(response));
+                _this3.props.currentUserReceived(response.profile); //this.props.currentUerReceived(response)
+            });
+        }
+    }, {
+        key: 'render',
+        value: function render() {
+            return _react2.default.createElement(
+                'div',
+                null,
+                this.props.currentUser != null ? _react2.default.createElement(
+                    'h2',
+                    null,
+                    'Welcome, ',
+                    this.props.currentUser.firstName
+                ) : _react2.default.createElement(
+                    'div',
+                    null,
+                    _react2.default.createElement(
+                        'h2',
+                        null,
+                        'Sign up'
+                    ),
+                    _react2.default.createElement('input', { onChange: this.update.bind(this), type: 'text', id: 'firstName', placeholder: 'First name' }),
+                    _react2.default.createElement('br', null),
+                    _react2.default.createElement('input', { onChange: this.update.bind(this), type: 'text', id: 'lastName', placeholder: 'Last name' }),
+                    _react2.default.createElement('br', null),
+                    _react2.default.createElement('input', { onChange: this.update.bind(this), type: 'text', id: 'email', placeholder: 'Email' }),
+                    _react2.default.createElement('br', null),
+                    _react2.default.createElement('input', { onChange: this.update.bind(this), type: 'text', id: 'password', placeholder: 'Password' }),
+                    _react2.default.createElement('br', null),
+                    _react2.default.createElement(
+                        'button',
+                        { onClick: this.register.bind(this) },
+                        'Submit'
+                    ),
+                    _react2.default.createElement(
+                        'h2',
+                        null,
+                        'Sign in'
+                    ),
+                    _react2.default.createElement('input', { onChange: this.update.bind(this), type: 'text', id: 'email', placeholder: 'Email' }),
+                    _react2.default.createElement('br', null),
+                    _react2.default.createElement('input', { onChange: this.update.bind(this), type: 'text', id: 'password', placeholder: 'Password' }),
+                    _react2.default.createElement('br', null),
+                    _react2.default.createElement(
+                        'button',
+                        { onClick: this.login.bind(this) },
+                        'Submit'
+                    )
+                )
+            );
+        }
+    }]);
+
+    return Signup;
 }(_react.Component);
 
 var stateToProps = function stateToProps(state) {
-  return {
-    profiles: state.profile.list,
-    currentUser: state.account.currentUser
-  };
+    return {
+        profiles: state.profile.list,
+        currentUser: state.account.currentUser
+    };
 };
 
 var dispatchToProps = function dispatchToProps(dispatch) {
-  return {
-    profileCreated: function profileCreated(profile) {
-      return dispatch(_actions2.default.profileCreated(profile));
-    },
-    currentUserReceived: function currentUserReceived(profile) {
-      return dispatch(_actions2.default.currentuserReceived(profile));
-    }
-  };
+    return {
+        profileCreated: function profileCreated(profile) {
+            return dispatch(_actions2.default.profileCreated(profile));
+        },
+        currentUserReceived: function currentUserReceived(profile) {
+            return dispatch(_actions2.default.currentUserReceived(profile));
+        }
+    };
 };
 
 exports.default = (0, _reactRedux.connect)(stateToProps, dispatchToProps)(Signup);
@@ -11014,7 +11040,7 @@ exports.default = function () {
 
 
 Object.defineProperty(exports, "__esModule", {
-  value: true
+    value: true
 });
 
 var _superagent = __webpack_require__(227);
@@ -11024,31 +11050,38 @@ var _superagent2 = _interopRequireDefault(_superagent);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 exports.default = { //REPEATING MISTAKE, SHOULD BE export default NOT module.exports =
-  get: function get(endpoint, params, callback) {
+    get: function get(endpoint, params, callback) {
 
-    _superagent2.default.get(endpoint).query(params) //.query(null)      
-    .set('Accept', 'application/json') //.set('Application', 'application/json')
-    .end(function (err, response) {
-      if (err) {
-        // const msg = err || err.message
-        callback(err, null); // SHOULD NOT BE alert(msg)
-        return;
-      }
-      callback(null, response.body);
-    });
-  },
+        _superagent2.default.get(endpoint).query(params) //.query(null)      
+        .set('Accept', 'application/json') //.set('Application', 'application/json')
+        .end(function (err, response) {
+            if (err) {
+                // const msg = err || err.message
+                callback(err, null); // SHOULD NOT BE alert(msg)
+                return;
+            }
+            callback(null, response.body);
+        });
+    },
 
-  post: function post(endpoint, params, callback) {
-    _superagent2.default.post(endpoint) //get(endpoint)
-    .send(params) //.query(params)
-    .set('Accept', 'application/json').end(function (err, response) {
-      if (err) {
-        callback(err, null);
-        return;
-      }
-      callback(null, response.body); //IT IS CRITICAL TO HAVE response.body, NOT response IN HERE
-    });
-  }
+    post: function post(endpoint, params, callback) {
+        _superagent2.default.post(endpoint) //get(endpoint)
+        .send(params) //.query(params)
+        .set('Accept', 'application/json').end(function (err, response) {
+            if (err) {
+                callback(err, null);
+                return;
+            }
+            console.log('APIManager: ' + JSON.stringify(response.body));
+            var confirmation = response.body.confirmation;
+            if (confirmation != 'success') {
+                callback({ message: response.body.message }, null);
+                return;
+            }
+            callback(null, response.body); //IT IS CRITICAL TO HAVE response.body, NOT response IN HERE
+        });
+    }
+
 };
 
 /***/ }),
