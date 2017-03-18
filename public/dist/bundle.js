@@ -10762,12 +10762,19 @@ var Bookmarks = function (_Component) {
     function Bookmarks() {
         _classCallCheck(this, Bookmarks);
 
-        return _possibleConstructorReturn(this, (Bookmarks.__proto__ || Object.getPrototypeOf(Bookmarks)).apply(this, arguments));
+        var _this = _possibleConstructorReturn(this, (Bookmarks.__proto__ || Object.getPrototypeOf(Bookmarks)).call(this));
+
+        _this.state = {
+            bookmarks: []
+        };
+        return _this;
     }
 
     _createClass(Bookmarks, [{
         key: 'componentDidMount',
         value: function componentDidMount() {
+            var _this2 = this;
+
             _utils.APIManager.get('/api/bookmark', null, function (err, response) {
                 if (err) {
                     var msg = err.message || err;
@@ -10775,6 +10782,10 @@ var Bookmarks = function (_Component) {
                     return;
                 }
                 console.log('componentDidMount bookmark list: ' + JSON.stringify(response));
+                var bookmarks = response.results; //var results = response.bookmarks, IN HERE NEED BE CONSISTENT WITH routes/api.js
+                _this2.setState({
+                    bookmarks: bookmarks
+                });
             });
 
             // console.log('componentDidMount: ')
@@ -10782,10 +10793,20 @@ var Bookmarks = function (_Component) {
     }, {
         key: 'render',
         value: function render() {
+            var list = this.state.bookmarks.map(function (bookmark, i) {
+                return _react2.default.createElement(
+                    'li',
+                    { key: bookmark.id },
+                    ' ',
+                    bookmark.description,
+                    ' '
+                );
+            });
+
             return _react2.default.createElement(
                 'div',
                 null,
-                'This is Bookmarks container.'
+                list
             );
         }
     }]);

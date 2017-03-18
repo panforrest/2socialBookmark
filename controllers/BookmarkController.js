@@ -5,7 +5,7 @@ var utils = require('../utils')
 
 module.exports = {
 
-	find: function(params){                                  //find: function(err, bookmark){
+	find: function(params, isRaw){                                  //find: function(err, bookmark){
 	    return new Promise(function(resolve, reject){        //return new promise
 		    Bookmark.find(params, function(err, bookmarks){            
 			    if (err) {
@@ -13,7 +13,17 @@ module.exports = {
 			    	return         //DON'T FORGET return HERE
 	            }
 
-			    resolve(bookmarks)
+	            if (isRaw){
+	            	resolve(bookmarks)
+	            	return
+	            }
+
+	            var summaries = []
+	            bookmarks.forEach(function(bookmark){   // for each(profile)in Profiles{
+                    summaries.push(bookmark.summary())   // bookmarks.push(bookmark.summary())
+	            })     
+	            	
+			    resolve(summaries)   //resolve(bookmarks.summary())
 		    })
 		})
 	},
