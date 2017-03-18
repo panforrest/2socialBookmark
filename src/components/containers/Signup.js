@@ -3,6 +3,7 @@ import { APIManager } from '../../utils'
 import actions from '../../actions'
 import { connect } from 'react-redux'
 
+
 class Signup extends Component {
 	constructor(){
 		super()
@@ -61,7 +62,6 @@ class Signup extends Component {
 	render(){
 		return(
             <div> 
-            {(this.props.currentUser != null) ? <h2>Welcome, {this.props.currentUser.firstName}</h2>: 
 
               <div>  
                 <h2>Sign up</h2>
@@ -80,7 +80,7 @@ class Signup extends Component {
               </div>               
  
                
-            }
+            
             </div>
 		)
 	}

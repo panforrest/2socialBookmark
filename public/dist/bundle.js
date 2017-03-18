@@ -10798,12 +10798,7 @@ var Signup = function (_Component) {
             return _react2.default.createElement(
                 'div',
                 null,
-                this.props.currentUser != null ? _react2.default.createElement(
-                    'h2',
-                    null,
-                    'Welcome, ',
-                    this.props.currentUser.firstName
-                ) : _react2.default.createElement(
+                _react2.default.createElement(
                     'div',
                     null,
                     _react2.default.createElement(
@@ -10952,7 +10947,6 @@ var Home = function (_Component) {
                 _react2.default.createElement(
                     'div',
                     { className: 'col-md-3' },
-                    _react2.default.createElement(_containers.Signup, null),
                     _react2.default.createElement(_containers.Admin, null)
                 )
             );
@@ -26708,13 +26702,22 @@ var _react = __webpack_require__(14);
 
 var _react2 = _interopRequireDefault(_react);
 
+var _reactRedux = __webpack_require__(32);
+
+var _actions = __webpack_require__(57);
+
+var _actions2 = _interopRequireDefault(_actions);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } //     		    {(this.props.currentUser == null) ? <h2>Welcome, { this.props.currentUser.firstName }</h2>: 
+
+// import { Signup } from '../containers'
+
 
 var Admin = function (_Component) {
     _inherits(Admin, _Component);
@@ -26731,7 +26734,16 @@ var Admin = function (_Component) {
             return _react2.default.createElement(
                 'div',
                 null,
-                'This is Admin container.'
+                this.props.currentUser != null ? _react2.default.createElement(
+                    'h2',
+                    null,
+                    'Welcome, ',
+                    this.props.currentUser.firstName
+                ) : _react2.default.createElement(
+                    'div',
+                    null,
+                    'User not logged in'
+                )
             );
         }
     }]);
@@ -26739,7 +26751,25 @@ var Admin = function (_Component) {
     return Admin;
 }(_react.Component);
 
-exports.default = Admin;
+var stateToProps = function stateToProps(state) {
+    return {
+        profiles: state.profile.list,
+        currentUser: state.account.currentUser
+    };
+};
+
+var dispatchToProps = function dispatchToProps(dispatch) {
+    return {
+        profileCreated: function profileCreated(profile) {
+            return dispatch(_actions2.default.profileCreated(profile));
+        },
+        currentUserReceived: function currentUserReceived(profile) {
+            return dispatch(_actions2.default.currentUserReceived(profile));
+        }
+    };
+};
+
+exports.default = (0, _reactRedux.connect)(stateToProps, dispatchToProps)(Admin);
 
 /***/ })
 /******/ ]);
