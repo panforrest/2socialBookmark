@@ -26,36 +26,38 @@ class Signup extends Component {
             visitor: updatedVisitor
         })
         // dispatch(action.profileCreated)
-        console.log(JSON.stringify(this.state.visitor))
+        // console.log(JSON.stringify(this.state.visitor))
 	}
 
 	register(event){
 		event.preventDefault()
+        this.props.onRegister(this.state.visitor)
 		// console.log('register: ')
-		APIManager.post('/account/register', this.state.visitor, (err, response) => {  //, null, (err, profile)
-            if (err) {
-            	let msg = err.message || err
-            	alert(msg)
-            	return
-            }
-			console.log('REGISTER: '+JSON.stringify(response))
-            this.props.profileCreated(response.profile)   //this.props.profileCreated(response.result)
-		})
+		// APIManager.post('/account/register', this.state.visitor, (err, response) => {  //, null, (err, profile)
+  //           if (err) {
+  //           	let msg = err.message || err
+  //           	alert(msg)
+  //           	return
+  //           }
+		// 	console.log('REGISTER: '+JSON.stringify(response))
+  //           this.props.profileCreated(response.profile)   //this.props.profileCreated(response.result)
+		// })
 	}
 
     login(event){
         event.preventDefault()
+        this.props.onLogin(this.state.visitor)
         // console.log('log in: ')
-        APIManager.post('/account/login', this.state.visitor, (err, response) => {
-            if (err){
-                let msg = err.message || err // const msg = err.message || err
-                alert(msg)  //alert(err)
-                return
-            }
+        // APIManager.post('/account/login', this.state.visitor, (err, response) => {
+        //     if (err){
+        //         let msg = err.message || err // const msg = err.message || err
+        //         alert(msg)  //alert(err)
+        //         return
+        //     }
 
-            console.log('LOGIN: '+JSON.stringify(response))
-            this.props.currentUserReceived(response.profile)    //this.props.currentUerReceived(response)
-        })
+        //     console.log('LOGIN: '+JSON.stringify(response))
+        //     this.props.currentUserReceived(response.profile)    //this.props.currentUerReceived(response)
+        // })
 
     } 
 
