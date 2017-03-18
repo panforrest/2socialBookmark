@@ -3,8 +3,23 @@ import React, { Component } from 'react'
 import { Signup } from '../containers'
 import { connect } from 'react-redux'
 import actions from '../../actions'
+import { APIManager } from '../../utils'
  
 class Admin extends Component {
+	componentDidMount(){
+        APIManager.get('/account/currentuser', null, (err, response) => {  //REMEMBER NOT post('/account/login', null,
+        	if (err) {
+        		// const msg = err.message || err
+        		alert(err)
+        		return
+        	}
+        	console.log('Admin: '+JSON.stringify(response.profile))
+        	this.props.currentUserReceived(response.profile)
+        })
+
+	}
+
+
     render(){
     	return(
     		<div>
