@@ -17,7 +17,7 @@ router.post('/login', function(req, res, next){
         	})
         	return
         }
-        profile = profiles[0]
+        var profile = profiles[0]
 
         // if (credential.password != profile.password){
         // 	res.json({
@@ -30,7 +30,7 @@ router.post('/login', function(req, res, next){
         var passwordCorrect = bcrypt.compareSync(credentials.password, profile.password)   //SHOULD BE credentials
         if (passwordCorrect == false) {     //(passwordCorrect == null)
         	res.json({
-                confimration: 'login failed',
+                confirmation: 'login failed',
                 message: 'incorrect password'
         	})
         	return
@@ -40,8 +40,8 @@ router.post('/login', function(req, res, next){
         req.session.token = token
 
         res.json({
-            confirmation: 'login success',
-            profile: profile
+            confirmation: 'success',   //NOT SURE WHY confirmation: 'login success', GIVES ALERT EVEN IF LOGIN SUCCESS
+            profile: profile.summary()    //profile: profile
         })
 
 	})

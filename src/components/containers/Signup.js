@@ -48,7 +48,7 @@ class Signup extends Component {
         // console.log('log in: ')
         APIManager.post('/account/login', this.state.visitor, (err, response) => {
             if (err){
-                const msg = err.message || err
+                let msg = err.message || err // const msg = err.message || err
                 alert(msg)  //alert(err)
                 return
             }

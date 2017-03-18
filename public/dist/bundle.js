@@ -10783,7 +10783,7 @@ var Signup = function (_Component) {
             // console.log('log in: ')
             _utils.APIManager.post('/account/login', this.state.visitor, function (err, response) {
                 if (err) {
-                    var msg = err.message || err;
+                    var msg = err.message || err; // const msg = err.message || err
                     alert(msg); //alert(err)
                     return;
                 }
@@ -26702,6 +26702,8 @@ var _react = __webpack_require__(14);
 
 var _react2 = _interopRequireDefault(_react);
 
+var _containers = __webpack_require__(102);
+
 var _reactRedux = __webpack_require__(32);
 
 var _actions = __webpack_require__(57);
@@ -26715,8 +26717,6 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } //     		    {(this.props.currentUser == null) ? <h2>Welcome, { this.props.currentUser.firstName }</h2>: 
-
-// import { Signup } from '../containers'
 
 
 var Admin = function (_Component) {
@@ -26739,11 +26739,7 @@ var Admin = function (_Component) {
                     null,
                     'Welcome, ',
                     this.props.currentUser.firstName
-                ) : _react2.default.createElement(
-                    'div',
-                    null,
-                    'User not logged in'
-                )
+                ) : _react2.default.createElement(_containers.Signup, null)
             );
         }
     }]);

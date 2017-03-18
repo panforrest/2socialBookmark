@@ -1,6 +1,6 @@
 //     		    {(this.props.currentUser == null) ? <h2>Welcome, { this.props.currentUser.firstName }</h2>: 
 import React, { Component } from 'react'
-// import { Signup } from '../containers'
+import { Signup } from '../containers'
 import { connect } from 'react-redux'
 import actions from '../../actions'
  
@@ -9,10 +9,10 @@ class Admin extends Component {
     	return(
     		<div>
     		    {(this.props.currentUser != null) ? <h2>Welcome, { this.props.currentUser.firstName }</h2>: 
-    		      <div>	
-    		    	User not logged in
-                    
-                  </div>  
+    		      
+    		    	
+                    <Signup />
+                   
     		    }
     		</div>
     	)
