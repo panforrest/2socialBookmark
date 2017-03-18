@@ -10948,6 +10948,12 @@ var Profiles = function (_Component) {
 
 		}
 	}, {
+		key: 'selectProfile',
+		value: function selectProfile(profile, event) {
+			event.preventDefault();
+			console.log('selectProfile: ' + JSON.stringify(profile)); //(this.state.selected))
+		}
+	}, {
 		key: 'render',
 		value: function render() {
 			var _this3 = this;
@@ -10955,23 +10961,35 @@ var Profiles = function (_Component) {
 			var list = this.props.profiles.map(function (profile, i) {
 				var name = null;
 				if (_this3.props.selected == null) name = _react2.default.createElement(
-					'span',
-					null,
-					' ',
-					profile.firstName,
-					' '
+					'a',
+					{ onClick: _this3.selectProfile.bind(_this3, profile) },
+					_react2.default.createElement(
+						'span',
+						null,
+						' ',
+						profile.firstName,
+						' '
+					)
 				);else if (_this3.props.selected.id == profile.id) name = _react2.default.createElement(
-					'strong',
-					{ style: { color: 'red' } },
-					' ',
-					profile.firstName,
-					' '
+					'a',
+					{ onClick: _this3.selectProfile.bind(_this3, profile) },
+					_react2.default.createElement(
+						'strong',
+						{ style: { color: 'red' } },
+						' ',
+						profile.firstName,
+						' '
+					)
 				);else name = _react2.default.createElement(
-					'span',
-					null,
-					' ',
-					profile.firstName,
-					' '
+					'a',
+					{ onClick: _this3.selectProfile.bind(_this3, profile) },
+					_react2.default.createElement(
+						'span',
+						null,
+						' ',
+						profile.firstName,
+						' '
+					)
 				);
 
 				return _react2.default.createElement(
