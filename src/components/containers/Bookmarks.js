@@ -1,5 +1,7 @@
 import React, { Component } from 'react'
 import { APIManager } from '../../utils'
+import actions from '../../actions'
+import { connect } from 'react-redux'
 
 class Bookmarks extends Component {
     constructor(){
@@ -16,11 +18,12 @@ class Bookmarks extends Component {
         		alert(err)
         		return
         	}
-        	console.log('componentDidMount bookmark list: '+JSON.stringify(response))
-        	const bookmarks = response.results   //var results = response.bookmarks, IN HERE NEED BE CONSISTENT WITH routes/api.js
-        	this.setState({
-                bookmarks: bookmarks
-        	})
+        	// console.log('componentDidMount bookmark list: '+JSON.stringify(response))
+        	// const bookmarks = response.results   //var results = response.bookmarks, IN HERE NEED BE CONSISTENT WITH routes/api.js
+        	// this.setState({
+         //        bookmarks: bookmarks
+        	// })
+        	this.props.bookmarksReceived(response.results)   // this.props.bookmarksReceived(bookmarks)
         })
 
         // console.log('componentDidMount: ')
@@ -43,4 +46,16 @@ class Bookmarks extends Component {
 	}
 }
 
-export default Bookmarks
+const stateToProps = (state) => {
+	return {
+		bookmarks: state.bookmarks
+	}
+}
+
+const dispatchToProps = (dispatch) => {
+	return {
+		bookmarksReceived: (bookmarks) => dispatch(actions.bookmarksReceived(bookmarks))
+	}
+}
+
+export default connect(stateToProps, dispatchToProps)(Bookmarks)

@@ -4636,6 +4636,13 @@ exports.default = { //module.exports = {
             type: _constants2.default.CURRENT_USER_RECEIVED,
             profile: profile
         };
+    },
+
+    bookmarksReceived: function bookmarksReceived(bookmarks) {
+        return {
+            type: _constants2.default.BOOKMARKS_RECEIVED,
+            bookmarks: bookmarks
+        };
     }
 };
 
@@ -4653,7 +4660,8 @@ exports.default = { //module.exports = {
 
 	PROFILES_RECEIVED: 'PROFILES_RECEIVED', //PROFILES_RECEIVED: PROFILES_RECEIVED
 	PROFILE_CREATED: 'PROFILE_CREATED',
-	CURRENT_USER_RECEIVED: 'CURRENT_USER_RECEIVED'
+	CURRENT_USER_RECEIVED: 'CURRENT_USER_RECEIVED',
+	BOOKMARKS_RECEIVED: 'BOOKMARKS_RECEIVED'
 };
 
 /***/ }),
@@ -10521,7 +10529,8 @@ exports.default = {
     configureStore: function configureStore() {
         var reducers = (0, _redux.combineReducers)({
             profile: _reducers.profileReducer, //profileReducer
-            account: _reducers.accountReducer
+            account: _reducers.accountReducer,
+            bookmark: _reducers.bookmarkReducer
         });
 
         store = (0, _redux.createStore)(reducers, (0, _redux.applyMiddleware)(_reduxThunk2.default));
@@ -10737,7 +10746,7 @@ exports.default = (0, _reactRedux.connect)(stateToProps, dispatchToProps)(Admin)
 
 
 Object.defineProperty(exports, "__esModule", {
-    value: true
+  value: true
 });
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -10748,6 +10757,12 @@ var _react2 = _interopRequireDefault(_react);
 
 var _utils = __webpack_require__(35);
 
+var _actions = __webpack_require__(33);
+
+var _actions2 = _interopRequireDefault(_actions);
+
+var _reactRedux = __webpack_require__(26);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -10757,64 +10772,79 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 var Bookmarks = function (_Component) {
-    _inherits(Bookmarks, _Component);
+  _inherits(Bookmarks, _Component);
 
-    function Bookmarks() {
-        _classCallCheck(this, Bookmarks);
+  function Bookmarks() {
+    _classCallCheck(this, Bookmarks);
 
-        var _this = _possibleConstructorReturn(this, (Bookmarks.__proto__ || Object.getPrototypeOf(Bookmarks)).call(this));
+    var _this = _possibleConstructorReturn(this, (Bookmarks.__proto__ || Object.getPrototypeOf(Bookmarks)).call(this));
 
-        _this.state = {
-            bookmarks: []
-        };
-        return _this;
+    _this.state = {
+      bookmarks: []
+    };
+    return _this;
+  }
+
+  _createClass(Bookmarks, [{
+    key: 'componentDidMount',
+    value: function componentDidMount() {
+      var _this2 = this;
+
+      _utils.APIManager.get('/api/bookmark', null, function (err, response) {
+        if (err) {
+          var msg = err.message || err;
+          alert(err);
+          return;
+        }
+        // console.log('componentDidMount bookmark list: '+JSON.stringify(response))
+        // const bookmarks = response.results   //var results = response.bookmarks, IN HERE NEED BE CONSISTENT WITH routes/api.js
+        // this.setState({
+        //        bookmarks: bookmarks
+        // })
+        _this2.props.bookmarksReceived(response.results); // this.props.bookmarksReceived(bookmarks)
+      });
+
+      // console.log('componentDidMount: ')
     }
+  }, {
+    key: 'render',
+    value: function render() {
+      var list = this.state.bookmarks.map(function (bookmark, i) {
+        return _react2.default.createElement(
+          'li',
+          { key: bookmark.id },
+          ' ',
+          bookmark.description,
+          ' '
+        );
+      });
 
-    _createClass(Bookmarks, [{
-        key: 'componentDidMount',
-        value: function componentDidMount() {
-            var _this2 = this;
+      return _react2.default.createElement(
+        'div',
+        null,
+        list
+      );
+    }
+  }]);
 
-            _utils.APIManager.get('/api/bookmark', null, function (err, response) {
-                if (err) {
-                    var msg = err.message || err;
-                    alert(err);
-                    return;
-                }
-                console.log('componentDidMount bookmark list: ' + JSON.stringify(response));
-                var bookmarks = response.results; //var results = response.bookmarks, IN HERE NEED BE CONSISTENT WITH routes/api.js
-                _this2.setState({
-                    bookmarks: bookmarks
-                });
-            });
-
-            // console.log('componentDidMount: ')
-        }
-    }, {
-        key: 'render',
-        value: function render() {
-            var list = this.state.bookmarks.map(function (bookmark, i) {
-                return _react2.default.createElement(
-                    'li',
-                    { key: bookmark.id },
-                    ' ',
-                    bookmark.description,
-                    ' '
-                );
-            });
-
-            return _react2.default.createElement(
-                'div',
-                null,
-                list
-            );
-        }
-    }]);
-
-    return Bookmarks;
+  return Bookmarks;
 }(_react.Component);
 
-exports.default = Bookmarks;
+var stateToProps = function stateToProps(state) {
+  return {
+    bookmarks: state.bookmarks
+  };
+};
+
+var dispatchToProps = function dispatchToProps(dispatch) {
+  return {
+    bookmarksReceived: function bookmarksReceived(bookmarks) {
+      return dispatch(_actions2.default.bookmarksReceived(bookmarks));
+    }
+  };
+};
+
+exports.default = (0, _reactRedux.connect)(stateToProps, dispatchToProps)(Bookmarks);
 
 /***/ }),
 /* 102 */
@@ -11300,7 +11330,7 @@ exports.default = function () {
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.accountReducer = exports.profileReducer = undefined;
+exports.bookmarkReducer = exports.accountReducer = exports.profileReducer = undefined;
 
 var _profileReducer = __webpack_require__(109);
 
@@ -11310,10 +11340,15 @@ var _accountReducer = __webpack_require__(107);
 
 var _accountReducer2 = _interopRequireDefault(_accountReducer);
 
+var _bookmarkReducer = __webpack_require__(242);
+
+var _bookmarkReducer2 = _interopRequireDefault(_bookmarkReducer);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 exports.profileReducer = _profileReducer2.default;
 exports.accountReducer = _accountReducer2.default;
+exports.bookmarkReducer = _bookmarkReducer2.default;
 
 /***/ }),
 /* 109 */
@@ -11347,7 +11382,7 @@ exports.default = function () {
     switch (action.type) {
 
         case _constants2.default.PROFILES_RECEIVED:
-            console.log('PROFILES_RECEIVED: ' + JSON.stringify(action.profiles));
+            // console.log('PROFILES_RECEIVED: '+JSON.stringify(action.profiles))
             updated['list'] = action.profiles;
             return updated; //return state
 
@@ -26973,6 +27008,44 @@ var App = function (_Component) {
 }(_react.Component);
 
 _reactDom2.default.render(_react2.default.createElement(App, null), document.getElementById('root'));
+
+/***/ }),
+/* 242 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+
+var _constants = __webpack_require__(34);
+
+var _constants2 = _interopRequireDefault(_constants);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var initialState = {
+	// bookmarks: []   // list: []
+};
+
+exports.default = function () {
+	var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : initialState;
+	var action = arguments[1];
+
+	var updated = Object.assign({}, state); // let updatedList = Object.assign([], this.state.bookmark)
+	switch (action.type) {
+		case _constants2.default.BOOKMARKS_RECEIVED:
+			// update['list'] =  action.bookmarks
+			// var updated = updatedList
+			console.log('BOOKMARKS_RECEIVED: ' + JSON.stringify(action.bookmarks));
+			return updated;
+
+		default:
+			return state;
+	}
+};
 
 /***/ })
 /******/ ]);

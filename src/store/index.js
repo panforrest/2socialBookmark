@@ -1,4 +1,4 @@
-import { profileReducer, accountReducer } from '../reducers'
+import { profileReducer, accountReducer, bookmarkReducer } from '../reducers'
 import { createStore, applyMiddleware, combineReducers } from 'redux'   //from 'react-redux'
 import thunk from 'redux-thunk'  //import { thunk } from 'redux-thunk'   
 
@@ -14,7 +14,8 @@ export default {
     configureStore: () => {
         const reducers = combineReducers({
             profile: profileReducer,     //profileReducer
-            account: accountReducer
+            account: accountReducer,
+            bookmark: bookmarkReducer
         })
 
         store = createStore(

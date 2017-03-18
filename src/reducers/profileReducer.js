@@ -11,7 +11,7 @@ export default(state=initialState, action) => {
     switch(action.type){
 
         case constants.PROFILES_RECEIVED:
-            console.log('PROFILES_RECEIVED: '+JSON.stringify(action.profiles))
+            // console.log('PROFILES_RECEIVED: '+JSON.stringify(action.profiles))
             updated ['list'] = action.profiles 
             return updated     //return state
 
