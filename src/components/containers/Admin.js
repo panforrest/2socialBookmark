@@ -72,6 +72,8 @@ class Admin extends Component {
     		url: this.state.link
     	}
     	console.log('bookmark priorSubmitLink: '+JSON.stringify(bookmark))
+        console.log('currentuser.id: '+JSON.stringify(this.props.currentUser.id))
+
     	APIManager.post('/api/bookmark', bookmark, (err, response) => {
     		if (err) {
     			let msg = err.message || err
@@ -92,7 +94,7 @@ class Admin extends Component {
                 
                     <h2> Create Bookmark </h2>
                     <input onChange={this.updateLink.bind(this)} type="text" id="url" placeholder="Url" />
-                    <button onClick={this.submitLink.bind(this)}>submit</button>
+                    <button onClick={this.submitLink.bind(this)}>submit</button> <br />
                   </div> 
     		    }
 
@@ -103,7 +105,7 @@ class Admin extends Component {
 
 const stateToProps = (state) => {
     return {
-        profiles: state.profile.list,
+        profile: state.profile.list,
         currentUser: state.account.currentUser
     }
 }

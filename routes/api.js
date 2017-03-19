@@ -1,95 +1,86 @@
 var express = require('express')
 var router = express.Router()
-var controllers =  require('../controllers')
+var controllers = require('../controllers')
 
-router.get('/:resource', function(req, res, next){   //NOT router.get('/', function(req, res, next){
-//NOT router.get('/resource', function(req, res, next){
+router.get('/:resource', function(req, res, next){
     var resource = req.params.resource
     var controller = controllers[resource]
-
-    if (controller == null) {
-    	res.json({
-    		confirmation: 'fail null',
-    		message: 'invalid resource'
-    	})
+    if (controller == null){
+        res.json({
+            confirmation: 'fail',
+            message: 'Invalid Resource'
+        })
         return
     }
 
-    controller.find(req.query, false)      //find.query(query.body)
-    .then(function(entities){       //.catch
+    controller.find(req.query, false)
+    .then(function(entities){
         res.json({
-        	confirmation: 'success',
-        	results: entities     //REMEMBER HERE IS A KILLER TO KILL WHOLE PROJECT, WRONG WAY IS  resource: entities
+            confirmation: 'success',
+            results: entities
         })
-    })        
-    .catch(function(err){           //.return
+    })
+    .catch(function(err){
         res.json({
-        	confirmation: 'fail',
-        	message: err
+            confirmation: 'fail',
+            message: err
         })
-    })          
+    })
+})
 
+router.get('/:resource/:id', function(req, res, next){
 
+    var resource = req.params.resource
+    var controller = controllers[resource]
+    if (controller == null){
+        res.json({
+            confirmation: 'fail',
+            message: 'Invalid Resource'
+        })
+        return
+    }
 
-    // if (resource = 'test') {
-		// res.json({
-		// 	confirmation: 'success',
-		// 	resource: resource
-		// })
-	// }	
+    var id = req.params.id
+    controller.findById(id)
+    .then(function(result){
+        res.json({
+            confirmation: 'success',
+            result: result
+        })
+    })
+    .catch(function(err){
+        res.json({
+            confirmation: 'fail',
+            message: resource+' '+id+' not found'
+        })
+    })
 })
 
 router.post('/:resource', function(req, res, next){
-	var resource = req.params.resource         //var resource = req.query.resource   
-	var controller = controllers[resource]
+    var resource = req.params.resource
+    var controller = controllers[resource]
+    if (controller == null){
+        res.json({
+            confirmation: 'fail',
+            message: 'Invalid Resource'
+        })
+        return
+    }
 
-	if (controller == null){
-		res.json({
-			confirmation: 'fail',
-			message: 'invalid resource'
-		})
-		return
-	}
-
-	controller.create(req.body)
-	.then(function(result){
-		res.json({
-			confirmation: 'success',
-			result: result
-		})
-	})
-	.catch(function(err){
-		res.json({
-			confirmation: 'fail',
-			message: err
-		})
-	})
+    controller.create(req.body)
+    .then(function(result){
+        res.json({
+            confirmation: 'success',
+            result: result
+        })
+    })
+    .catch(function(err){
+        res.json({
+            confirmation: 'fail',
+            message: err
+        })
+    })
 })
 
-router.get('/:resource/:id', function(req, res, next){     //'/:resource/:id'
-	var resource = req.params.resource
-	var controller = controllers[resource]
-
-	if (controller == null){
-		res.json({
-			confirmation: 'fail',
-			message: 'invalide resource'
-		})
-
-		return
-	}
-
-    var id = req.params.id    //DON'T FORGET THIS LINE
-	controller.findById(id)    //controller.findById(id, req.requery)
-	.then(function(result){
-
-	})
-	.catch(function(err){
-		res.json({
-			confirmation: 'fail',
-		    message: 'unable to find resource for id: '+id
-		})
-	})
-})
 
 module.exports = router

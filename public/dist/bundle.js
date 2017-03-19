@@ -3505,10 +3505,11 @@ exports.default = { //module.exports = {
         };
     },
 
-    bookmarksReceived: function bookmarksReceived(bookmarks) {
+    bookmarksReceived: function bookmarksReceived(bookmarks, params) {
         return {
             type: _constants2.default.BOOKMARKS_RECEIVED,
-            bookmarks: bookmarks
+            bookmarks: bookmarks,
+            params: params
         };
     },
 
@@ -10683,6 +10684,8 @@ var Admin = function (_Component) {
         url: this.state.link
       };
       console.log('bookmark priorSubmitLink: ' + JSON.stringify(bookmark));
+      console.log('currentuser.id: ' + JSON.stringify(this.props.currentUser.id));
+
       _utils.APIManager.post('/api/bookmark', bookmark, function (err, response) {
         if (err) {
           var msg = err.message || err;
@@ -10717,7 +10720,9 @@ var Admin = function (_Component) {
             'button',
             { onClick: this.submitLink.bind(this) },
             'submit'
-          )
+          ),
+          ' ',
+          _react2.default.createElement('br', null)
         )
       );
     }
@@ -10728,7 +10733,7 @@ var Admin = function (_Component) {
 
 var stateToProps = function stateToProps(state) {
   return {
-    profiles: state.profile.list,
+    profile: state.profile.list,
     currentUser: state.account.currentUser
   };
 };
@@ -10819,32 +10824,50 @@ var Bookmarks = function (_Component) {
             var _this2 = this;
 
             console.log('componentDidUpdate: ' + JSON.stringify(this.props.selected)); //(this.state.selectedProfile))
+            var list = this.props.bookmarks[this.props.selected.id];
+            if (list != null) return;
+
+            var params = { profile: this.props.selected.id };
             _utils.APIManager.get('/api/bookmark', { profile: this.props.selected.id }, function (err, response) {
                 //, null,     
                 if (err) {
-                    alert(err);
+                    // alert(err)
                     return;
                 }
-                _this2.props.bookmarksReceived(response.results);
+                _this2.props.bookmarksReceived(response.results, params);
             });
         }
     }, {
         key: 'render',
         value: function render() {
-            var list = this.props.bookmarks.map(function (bookmark, i) {
-                return _react2.default.createElement(
-                    'li',
-                    { key: bookmark.id },
-                    ' ',
-                    bookmark.description,
-                    ' '
-                );
-            });
+            // var list = this.props.bookmarks.map(function(bookmark, i){
+            // 	return(
+            // 		<li key={bookmark.id}> { bookmark.description } </li>
+            // 	)
+            // })
+            var list = this.props.selected == null ? null : this.props.bookmarks[this.props.selected.id];
 
             return _react2.default.createElement(
                 'div',
                 null,
-                list
+                _react2.default.createElement(
+                    'h2',
+                    null,
+                    'Bookmarks'
+                ),
+                _react2.default.createElement(
+                    'ol',
+                    null,
+                    list == null ? null : list.map(function (bookmark, i) {
+                        return _react2.default.createElement(
+                            'li',
+                            { key: bookmark.id },
+                            ' ',
+                            bookmark.description,
+                            ' '
+                        );
+                    })
+                )
             );
         }
     }]);
@@ -10855,14 +10878,14 @@ var Bookmarks = function (_Component) {
 var stateToProps = function stateToProps(state) {
     return {
         selected: state.profile.selected,
-        bookmarks: state.bookmark.list
+        bookmarks: state.bookmark
     };
 };
 
 var dispatchToProps = function dispatchToProps(dispatch) {
     return {
-        bookmarksReceived: function bookmarksReceived(bookmarks) {
-            return dispatch(_actions2.default.bookmarksReceived(bookmarks));
+        bookmarksReceived: function bookmarksReceived(bookmarks, params) {
+            return dispatch(_actions2.default.bookmarksReceived(bookmarks, params));
         }
     };
 };
@@ -11409,7 +11432,7 @@ exports.default = function () {
 
 
 Object.defineProperty(exports, "__esModule", {
-	value: true
+  value: true
 });
 
 var _constants = __webpack_require__(28);
@@ -11419,26 +11442,32 @@ var _constants2 = _interopRequireDefault(_constants);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var initialState = {
-	// bookmarks: []   // list: []
-	list: []
+  // bookmarks: []   // list: []
+  // list: []
 };
 
 exports.default = function () {
-	var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : initialState;
-	var action = arguments[1];
+  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : initialState;
+  var action = arguments[1];
 
-	var updated = Object.assign({}, state); // let updatedList = Object.assign([], this.state.bookmark)
-	switch (action.type) {
-		case _constants2.default.BOOKMARKS_RECEIVED:
-			// update['list'] =  action.bookmarks
-			// var updated = updatedList
-			// console.log('BOOKMARKS_RECEIVED: '+JSON.stringify(action.bookmarks))
-			updated['list'] = action.bookmarks;
-			return updated;
+  var updated = Object.assign({}, state); // let updatedList = Object.assign([], this.state.bookmark)
+  switch (action.type) {
+    case _constants2.default.BOOKMARKS_RECEIVED:
+      // update['list'] =  action.bookmarks
+      // var updated = updatedList
+      console.log('BOOKMARKS_RECEIVED: ' + JSON.stringify(action.bookmarks));
+      var params = action.params;
+      var keys = Object.keys(params);
+      keys.forEach(function (key, i) {
+        var value = params[key];
+        updated[value] = action.bookmarks;
+      });
+      // updated['list'] = action.bookmarks
+      return updated;
 
-		default:
-			return state;
-	}
+    default:
+      return state;
+  }
 };
 
 /***/ }),

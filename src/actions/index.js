@@ -24,10 +24,11 @@ export default {    //module.exports = {
         }
     },
 
-    bookmarksReceived: (bookmarks) => {
+    bookmarksReceived: (bookmarks, params) => {
         return {
             type: constants.BOOKMARKS_RECEIVED,
-            bookmarks: bookmarks
+            bookmarks: bookmarks,
+            params: params
         }
     },
 

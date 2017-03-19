@@ -46,13 +46,19 @@ module.exports = {
             	// IT IS VERY WRONG TO HAVE IT HERE FOR return
 
             	html = response.text
-                var metaData = utils.Scraper.scrape(html, ['og:title', 'og:description', 'og:image'])
-				Bookmark.create(metaData, function(err, bookmark){
+                var metaData = utils.Scraper.scrape(html, ['og:title', 'og:description', 'og:image','og:url'])
+
+                var keys = Object.keys(metaData)
+                keys.forEach(function(key, i){
+                    params[key] = metaData[key]
+                })
+
+				Bookmark.create(params, function(err, bookmark){    //Bookmark.create(metaData, function(err, bookmark){
 	                if (err) {
 	                	reject(err)
 	                	return
 	                }
-	                resolve(bookmark)
+	                resolve(bookmark.summary())
 				})
 
             })
