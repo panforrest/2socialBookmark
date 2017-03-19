@@ -59,6 +59,17 @@ class Profiles extends Component {
 
 	}
 
+	// componentDidUpdate(){
+	// 	console.log('componentDidUpdate: '+JSON.stringify(this.props.selected))  //(this.state.selectedProfile))
+	// 	APIManager.get('/api/bookmark', {profile: this.props.selected.id}, (err, response) => {     //, null,     
+ //            if (err) {
+ //            	alert(err)
+ //            	return
+ //            }
+ //            this.props.bookmarksReceived(response.results)
+	// 	})
+	// }
+
 	selectProfile(profile, event){
 		event.preventDefault()
 		// console.log('selectProfile: '+JSON.stringify(profile))   //(this.state.selected))
