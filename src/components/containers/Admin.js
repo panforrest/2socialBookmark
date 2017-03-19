@@ -81,6 +81,7 @@ class Admin extends Component {
     			return
     		}
     		console.log('submitLink: '+JSON.stringify(response))
+            this.props.bookmarkCreated(response.result)   //this.props.bookmarkCreated(response.bookmark)
     	})
     }
 
@@ -106,14 +107,15 @@ class Admin extends Component {
 const stateToProps = (state) => {
     return {
         profile: state.profile.list,
-        currentUser: state.account.currentUser
+        currentUser: state.account.currentUser,
     }
 }
 
 const dispatchToProps = (dispatch) => {
     return{ 
         profileCreated: (profile) => dispatch(actions.profileCreated(profile)),
-        currentUserReceived: (profile) => dispatch(actions.currentUserReceived(profile))
+        currentUserReceived: (profile) => dispatch(actions.currentUserReceived(profile)),
+        bookmarkCreated: (bookmark) => dispatch(actions.bookmarkCreated(bookmark))
     }
 }
 

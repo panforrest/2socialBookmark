@@ -3518,6 +3518,13 @@ exports.default = { //module.exports = {
             type: _constants2.default.PROFILE_SELECTED,
             profile: profile
         };
+    },
+
+    bookmarkCreated: function bookmarkCreated(bookmark) {
+        return {
+            type: _constants2.default.BOOKMARK_CREATED,
+            bookmark: bookmark
+        };
     }
 };
 
@@ -3537,7 +3544,8 @@ exports.default = { //module.exports = {
 	PROFILE_CREATED: 'PROFILE_CREATED',
 	CURRENT_USER_RECEIVED: 'CURRENT_USER_RECEIVED',
 	BOOKMARKS_RECEIVED: 'BOOKMARKS_RECEIVED',
-	PROFILE_SELECTED: 'PROFILE_SELECTED'
+	PROFILE_SELECTED: 'PROFILE_SELECTED',
+	BOOKMARK_CREATED: 'BOOKMARK_CREATED'
 };
 
 /***/ }),
@@ -10570,7 +10578,7 @@ module.exports = __webpack_require__(150);
 
 
 Object.defineProperty(exports, "__esModule", {
-  value: true
+    value: true
 });
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -10599,154 +10607,160 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 
 var Admin = function (_Component) {
-  _inherits(Admin, _Component);
+    _inherits(Admin, _Component);
 
-  function Admin() {
-    _classCallCheck(this, Admin);
+    function Admin() {
+        _classCallCheck(this, Admin);
 
-    var _this = _possibleConstructorReturn(this, (Admin.__proto__ || Object.getPrototypeOf(Admin)).call(this));
+        var _this = _possibleConstructorReturn(this, (Admin.__proto__ || Object.getPrototypeOf(Admin)).call(this));
 
-    _this.state = {
-      visitor: { //DON'T FORGET THIS LINE
-        url: ''
-      }
-    };
-    return _this;
-  }
+        _this.state = {
+            visitor: { //DON'T FORGET THIS LINE
+                url: ''
+            }
+        };
+        return _this;
+    }
 
-  _createClass(Admin, [{
-    key: 'componentDidMount',
-    value: function componentDidMount() {
-      var _this2 = this;
+    _createClass(Admin, [{
+        key: 'componentDidMount',
+        value: function componentDidMount() {
+            var _this2 = this;
 
-      _utils.APIManager.get('/account/currentuser', null, function (err, response) {
-        //REMEMBER NOT post('/account/login', null,
-        if (err) {
-          // const msg = err.message || err
-          alert(err);
-          return;
+            _utils.APIManager.get('/account/currentuser', null, function (err, response) {
+                //REMEMBER NOT post('/account/login', null,
+                if (err) {
+                    // const msg = err.message || err
+                    alert(err);
+                    return;
+                }
+                console.log('Admin: ' + JSON.stringify(response.profile));
+                _this2.props.currentUserReceived(response.profile);
+            });
         }
-        console.log('Admin: ' + JSON.stringify(response.profile));
-        _this2.props.currentUserReceived(response.profile);
-      });
-    }
-  }, {
-    key: 'register',
-    value: function register(visitor) {
-      var _this3 = this;
+    }, {
+        key: 'register',
+        value: function register(visitor) {
+            var _this3 = this;
 
-      _utils.APIManager.post('/account/register', visitor, function (err, response) {
-        //('/api/profile', 
-        if (err) {
-          var msg = err.message || err;
-          alert(msg);
-          return;
+            _utils.APIManager.post('/account/register', visitor, function (err, response) {
+                //('/api/profile', 
+                if (err) {
+                    var msg = err.message || err;
+                    alert(msg);
+                    return;
+                }
+                console.log('Register: ' + JSON.stringify(response.profile));
+                _this3.props.currentUserReceived(response.profile);
+            });
         }
-        console.log('Register: ' + JSON.stringify(response.profile));
-        _this3.props.currentUserReceived(response.profile);
-      });
-    }
-  }, {
-    key: 'login',
-    value: function login(credentials) {
-      var _this4 = this;
+    }, {
+        key: 'login',
+        value: function login(credentials) {
+            var _this4 = this;
 
-      _utils.APIManager.post('/account/login', credentials, function (err, response) {
-        //('/api/profile',   
-        if (err) {
-          var msg = err.message || err;
-          alert(msg);
-          return;
+            _utils.APIManager.post('/account/login', credentials, function (err, response) {
+                //('/api/profile',   
+                if (err) {
+                    var msg = err.message || err;
+                    alert(msg);
+                    return;
+                }
+                console.log('Register: ' + JSON.stringify(response.profile));
+                _this4.props.currentUserReceived(response.profile);
+            });
         }
-        console.log('Register: ' + JSON.stringify(response.profile));
-        _this4.props.currentUserReceived(response.profile);
-      });
-    }
-  }, {
-    key: 'updateLink',
-    value: function updateLink(event) {
-      event.preventDefault();
-      // console.log('updateLink: ')
-      // var updated = Object.assign({}, this.state.visitor)
-      //    updated[event.target.id] = event.target.value
-      this.setState({
-        link: event.target.value
-      });
-      console.log('updatedLink: ' + JSON.stringify(this.state.link));
-    }
-  }, {
-    key: 'submitLink',
-    value: function submitLink(event) {
-      event.preventDefault();
-      // console.log('submitLink: ')
-      var bookmark = {
-        profile: this.props.currentUser.id, //profile: this.props.profile.id,
-        url: this.state.link
-      };
-      console.log('bookmark priorSubmitLink: ' + JSON.stringify(bookmark));
-      console.log('currentuser.id: ' + JSON.stringify(this.props.currentUser.id));
-
-      _utils.APIManager.post('/api/bookmark', bookmark, function (err, response) {
-        if (err) {
-          var msg = err.message || err;
-          alert(err);
-          return;
+    }, {
+        key: 'updateLink',
+        value: function updateLink(event) {
+            event.preventDefault();
+            // console.log('updateLink: ')
+            // var updated = Object.assign({}, this.state.visitor)
+            //    updated[event.target.id] = event.target.value
+            this.setState({
+                link: event.target.value
+            });
+            console.log('updatedLink: ' + JSON.stringify(this.state.link));
         }
-        console.log('submitLink: ' + JSON.stringify(response));
-      });
-    }
-  }, {
-    key: 'render',
-    value: function render() {
-      return _react2.default.createElement(
-        'div',
-        null,
-        this.props.currentUser == null ? _react2.default.createElement(_presentation.Signup, { onRegister: this.register.bind(this), onLogin: this.login.bind(this) }) : _react2.default.createElement(
-          'div',
-          null,
-          _react2.default.createElement(
-            'h2',
-            null,
-            'Welcome, ',
-            this.props.currentUser.firstName
-          ),
-          _react2.default.createElement(
-            'h2',
-            null,
-            ' Create Bookmark '
-          ),
-          _react2.default.createElement('input', { onChange: this.updateLink.bind(this), type: 'text', id: 'url', placeholder: 'Url' }),
-          _react2.default.createElement(
-            'button',
-            { onClick: this.submitLink.bind(this) },
-            'submit'
-          ),
-          ' ',
-          _react2.default.createElement('br', null)
-        )
-      );
-    }
-  }]);
+    }, {
+        key: 'submitLink',
+        value: function submitLink(event) {
+            var _this5 = this;
 
-  return Admin;
+            event.preventDefault();
+            // console.log('submitLink: ')
+            var bookmark = {
+                profile: this.props.currentUser.id, //profile: this.props.profile.id,
+                url: this.state.link
+            };
+            console.log('bookmark priorSubmitLink: ' + JSON.stringify(bookmark));
+            console.log('currentuser.id: ' + JSON.stringify(this.props.currentUser.id));
+
+            _utils.APIManager.post('/api/bookmark', bookmark, function (err, response) {
+                if (err) {
+                    var msg = err.message || err;
+                    alert(err);
+                    return;
+                }
+                console.log('submitLink: ' + JSON.stringify(response));
+                _this5.props.bookmarkCreated(response.result); //this.props.bookmarkCreated(response.bookmark)
+            });
+        }
+    }, {
+        key: 'render',
+        value: function render() {
+            return _react2.default.createElement(
+                'div',
+                null,
+                this.props.currentUser == null ? _react2.default.createElement(_presentation.Signup, { onRegister: this.register.bind(this), onLogin: this.login.bind(this) }) : _react2.default.createElement(
+                    'div',
+                    null,
+                    _react2.default.createElement(
+                        'h2',
+                        null,
+                        'Welcome, ',
+                        this.props.currentUser.firstName
+                    ),
+                    _react2.default.createElement(
+                        'h2',
+                        null,
+                        ' Create Bookmark '
+                    ),
+                    _react2.default.createElement('input', { onChange: this.updateLink.bind(this), type: 'text', id: 'url', placeholder: 'Url' }),
+                    _react2.default.createElement(
+                        'button',
+                        { onClick: this.submitLink.bind(this) },
+                        'submit'
+                    ),
+                    ' ',
+                    _react2.default.createElement('br', null)
+                )
+            );
+        }
+    }]);
+
+    return Admin;
 }(_react.Component);
 
 var stateToProps = function stateToProps(state) {
-  return {
-    profile: state.profile.list,
-    currentUser: state.account.currentUser
-  };
+    return {
+        profile: state.profile.list,
+        currentUser: state.account.currentUser
+    };
 };
 
 var dispatchToProps = function dispatchToProps(dispatch) {
-  return {
-    profileCreated: function profileCreated(profile) {
-      return dispatch(_actions2.default.profileCreated(profile));
-    },
-    currentUserReceived: function currentUserReceived(profile) {
-      return dispatch(_actions2.default.currentUserReceived(profile));
-    }
-  };
+    return {
+        profileCreated: function profileCreated(profile) {
+            return dispatch(_actions2.default.profileCreated(profile));
+        },
+        currentUserReceived: function currentUserReceived(profile) {
+            return dispatch(_actions2.default.currentUserReceived(profile));
+        },
+        bookmarkCreated: function bookmarkCreated(bookmark) {
+            return dispatch(_actions2.default.bookmarkCreated(bookmark));
+        }
+    };
 };
 
 exports.default = (0, _reactRedux.connect)(stateToProps, dispatchToProps)(Admin);
@@ -11463,6 +11477,14 @@ exports.default = function () {
         updated[value] = action.bookmarks;
       });
       // updated['list'] = action.bookmarks
+      return updated;
+
+    case _constants2.default.BOOKMARK_CREATED:
+      // case constants.bookmarkCreated:
+      // let updatedList = Object.assign([], updated.list)
+      var list = updated[action.bookmark.profile] ? updated[action.bookmark.profile] : [];
+      list.push(action.bookmark);
+      updated[action.bookmark.profile] = list;
       return updated;
 
     default:

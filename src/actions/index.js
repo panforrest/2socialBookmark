@@ -37,6 +37,13 @@ export default {    //module.exports = {
             type: constants.PROFILE_SELECTED,
             profile: profile
         }
+    },
+
+    bookmarkCreated: (bookmark) => {
+        return {
+            type: constants.BOOKMARK_CREATED,
+            bookmark: bookmark
+        }
     }
 }
 
